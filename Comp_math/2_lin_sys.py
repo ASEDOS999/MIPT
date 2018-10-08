@@ -1,3 +1,4 @@
+#This programm compare Fast Gradient Method and Method of Minimal Residual for N random linear system
 import numpy as np
 import matplotlib.pyplot as plt
 

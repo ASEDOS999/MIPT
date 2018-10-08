@@ -1,3 +1,4 @@
+#This programm finds the best degree of aproximal polinomial for exponent and uses it for exponent with noise
 import numpy as np
 import matplotlib.pyplot as plt
 import math
