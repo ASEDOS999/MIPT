@@ -1,3 +1,4 @@
+#This programm create interpolate Newton's polinomial and cubic spline for set of points in file in.txt
 import math
 import sympy
 
@@ -62,7 +63,7 @@ def calc_spline(spl, x):
 			return i[0].subs(sympy.symbols('t'), x)
 	return 0
 
-file = open('var_1', 'r')
+file = open('in.txt', 'r')
 x = []
 for line in file:
 	print(line)
