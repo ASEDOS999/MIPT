@@ -1,3 +1,5 @@
+# Comp_math
+
 It is set of programs for Computational Mathematics on seven topics (see below). For each program use `Python 3.x`. 
 
 One should install `matplotlib` и `numpy` to use the most programs.
@@ -14,6 +16,6 @@ The description of program's result you can find in the first their strings.
 
 * Interpolation (*one should install only* `sympy`)
 
-* Numerical Integration (*it has not is written yet*)
+* Numerical Integration (*it has not been written yet*)
 
-* Differential equation (*it has not is written yet*)
+* Differential equation (*it has not been written yet*)
