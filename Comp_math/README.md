@@ -4,7 +4,7 @@ It is set of programs for Computational Mathematics on seven topics (see below).
 
 For each program use `Python 3.x`. One should install `matplotlib` и `numpy` to use the most programs.
 
-The description of program's result you can find in the first their strings. 
+The description of program's result you can find in the first their strings or below. 
 
 1. Errors. The program `1_taylor_exp.py` calculates Taylor's series for exponent.
 
