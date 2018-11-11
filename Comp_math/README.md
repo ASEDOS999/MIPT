@@ -17,7 +17,7 @@ The description of program's result you can find in the first their strings.
 * Show how many iterations needs for to find all roots of a random polynomial of constant degree
 * Show how work dichotomy for different degrees of polinomial with same number of iteration
 
-5. Interpolation (*one should install only* `sympy`). The programm `5_interpolation.py` creates interpolate Newton's polinomial and cubic spline for set of points in file in.txt(one should create the file).
+5. Interpolation (*one should install only* `sympy`). The program `5_interpolation.py` creates interpolate Newton's polinomial and cubic spline for set of points in file in.txt(one should create the file).
 
 6. Numerical Integration (*it has not been written yet*)
 
