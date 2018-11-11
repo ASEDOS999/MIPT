@@ -1,21 +1,21 @@
 # Comp_math
 
-It is set of programs for Computational Mathematics on seven topics (see below). For each program use `Python 3.x`. 
+It is set of programs for Computational Mathematics on seven topics (see below). A program's number matches a topic's number.
 
-One should install `matplotlib` и `numpy` to use the most programs.
+For each program use `Python 3.x`. One should install `matplotlib` и `numpy` to use the most programs.
 
 The description of program's result you can find in the first their strings. 
 
-* Errors 
+1. Errors 
 
-* Linear systems 
+2. Linear systems 
 
-* The method of least squares 
+3. The method of least squares 
 
-* Non-linear systems 
+4. Non-linear systems 
 
-* Interpolation (*one should install only* `sympy`)
+5. Interpolation (*one should install only* `sympy`)
 
-* Numerical Integration (*it has not been written yet*)
+6. Numerical Integration (*it has not been written yet*)
 
-* Differential equation (*it has not been written yet*)
+7. Differential equation (*it has not been written yet*)
