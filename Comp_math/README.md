@@ -1,9 +1,21 @@
-It is set of programs for Computational Mathematics on seven topics (see below). For each program use Python 3.x.
-The description of program's result you can find in the first their strings.
-#1. Errors
-#2. Linear systems
-#3. The method of least squares
-#4. Non-linear systems
-#5. Interpolation
-#6. Numerical Integration.
-#7. Differential equation. 
+It is set of programs for Computational Mathematics on seven topics (see below). For each program use **Python 3.x**. 
+
+One should install 'matplotlib' и 'numpy' to use the most programs.
+
+The description of program's result you can find in the first their strings. 
+
+* Errors 
+
+* Linear systems 
+
+* The method of least squares 
+
+* Non-linear systems 
+
+* Interpolation 
+
+One should install *only* 'sympy'.
+
+* Numerical Integration. 
+
+* Differential equation.
