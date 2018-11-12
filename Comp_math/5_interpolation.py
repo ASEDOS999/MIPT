@@ -1,7 +1,8 @@
 #This programm create interpolate Newton's polinomial and cubic spline for set of points in file in.txt
 import math
 import sympy
-
+import numpy as np
+import matplotlib.pyplot as plt
 
 def f(list):
 	if len(list) > 1:
@@ -18,7 +19,7 @@ def newton(list):
 		j += 1
 		P = P + f(list[:j]) * s
 		s = s * (t - i[0])
-	return P
+	return (P,t)
 
 #Function for coefficients P_(N, i) in cubic spline
 def get_coef(P, x):
@@ -63,21 +64,44 @@ def calc_spline(spl, x):
 			return i[0].subs(sympy.symbols('t'), x)
 	return 0
 
-file = open('in.txt', 'r')
-x = []
-for line in file:
-	print(line)
-	x.append([float(i) for i in line.split()])
+def make_graph(size, f, s, e, n, num, name):
+	x = []
+	for i in np.linspace(s, e, n):
+		x.append([i, f(i)])
+	P = newton(x)
+	spline3 = cubic_spline(P[0], x)
+	
+	arg = np.linspace(s - 1, e + 1, 100)
+	plt.subplot(2, size, num)
+	plt.plot([i[0] for i in x], [i[1] for i in x], 'go')
+	plt.plot(arg, [f(i) for i in arg], 'b')
+	plt.plot(arg, [P[0].subs(P[1], i) for i in arg], 'r')
+	plt.title(r'Newtons polinomial for %s'%(name))
+	plt.legend(['Interpolted points', r'Original function', 'Newtons polinomial'])
+	plt.xlabel(r'x')
+	plt.ylabel(r'y')
+	plt.grid(True)
+	
+	arg = np.linspace(s, e, 100)
+	value = [calc_spline(spline3, float(i)) for i in arg]
+	plt.subplot(2, size, num + size)
+	plt.plot([i[0] for i in x], [i[1] for i in x], 'go')
+	plt.plot(arg, [f(i) for i in arg], 'b')
+	plt.plot(arg, value, 'r')
+	plt.legend(['Interpolted points', r'Original function', 'Cubic spline'])
+	plt.xlabel(r'x')
+	plt.ylabel(r'y')
+	plt.title(r'Cubic spline for %s'%(name))
+	plt.grid(True)
 
-P = newton(x).expand()
-print(P)
-spline3 = cubic_spline(P, x)
-for i in spline3:
-	print(i[1],': P(t)=',i[0])
-print('Input x to get value of cubic spline in point x')
-print('Print E to end programm')
-while (1):
-	inp = input()
-	if inp == 'E':
-		break
-	print(calc_spline(spline3, float(inp)))
+
+f1 = lambda x: math.exp(x)
+f2 = lambda x: (x - 0.4) * (x - 0.5) * (x - 0.3) * (x - 0.7) * (x - 0.12)
+f3 = lambda x: math.sin(x * math.pi)
+
+make_graph(3, f1, -3, 3, 5, 1, r'exponent $e^x$, 5 points')
+make_graph(3, f2, -10, 10, 5, 2, 'polinomial of 5 degree, 5 points')
+make_graph(3, f3, -3, 3, 10, 3, r'sinus $\sin(\pi x)$,10 points')
+
+plt.subplots_adjust(left=0.04, bottom=0.05, right=0.99, top=0.97, wspace=0.15, hspace=0.20)
+plt.show()
