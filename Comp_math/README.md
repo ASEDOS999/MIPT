@@ -2,7 +2,7 @@
 
 It is a set of programs for Computational Mathematics on seven topics (see below). A program's number matches a topic's number.
 
-For each program use `Python 3.x`. One should install `matplotlib` and `numpy` to use the most programs.
+For each program use `Python 3.x`. One should install `matplotlib` and `numpy` to use all programs.
 
 The description of program's result you can find in the first their strings or below. 
 
@@ -19,6 +19,6 @@ The description of program's result you can find in the first their strings or b
 
 5. Interpolation (*one should install also* `sympy`). The program `5_interpolation.py` creates interpolate Newton's polinomial and cubic spline for three functions(exponent, polinomial, sinus).
 
-6. Numerical Integration. The program `6_integration.py` compares three method of computional integration (trapezium, rectangle and Simpson) for three function
+6. Numerical Integration. The program `6_integration.py` compares three method of computional integration (trapezium, rectangle and Simpson) for three functions.
 
 7. Differential equation (*it has not been written yet*)
