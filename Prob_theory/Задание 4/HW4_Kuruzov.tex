@@ -1,0 +1,194 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{Курузов Илья}
+
+{Задание 4}
+\end{center}
+
+\begin{center}
+\textbf{Задача 1.}
+\end{center}
+
+1)
+
+$$F_{\min}(x) = \mathbb{P}(\min\{X_1\dots X_n\}<x)$$
+
+Условие $\min\{X_1\dots X_n\}<x$ равносильно условию $\exists i :X_i<x$. Пользуясь этим фактом и формулой включений-исключений получаем:
+
+$$F_{\min}(x) = \sum\limits_{j = 1}^n(-1)^{j-1}\sum\limits_{m_1\neq\dots\neq m_j}\left(\mathbb{P}(\cap_{i=1}^j\{X_{m_i}<x\})\right)$$
+
+В силу независимости в совокупности:
+
+$$F_{\min}(x)=\sum\limits_{j = 1}^n(-1)^{j-1}\sum\limits_{m_1\neq\dots\neq m_j}\left(\prod\limits_{i=1}^j\mathbb{P}(X_{m_i}<x)\right) = $$
+$$=\sum\limits_{j = 1}^n(-1)^{j-1}\sum\limits_{m_1\neq\dots\neq m_j}\left(\prod\limits_{i=1}^jF_{X_{m_i}}(x)\right)=$$
+$$=\sum\limits_{j = 1}^n(-1)^{j-1}\prod\limits_{i=1}^j\left(F_{X_{i}}(x)\right)^{C_n^j}$$
+
+Из этого получаем выражение для искомого распределния:
+
+\begin{equation*}
+\boxed{
+F_{\min}(x) = 
+ \begin{cases}
+   \sum\limits_{j = 1}^n(-1)^{j-1}\prod\limits_{i=1}^j\left(1 - e^{-\lambda_i x}\right)^{C_n^j} &\text{if  $x \geq 0$}\\
+   0 &\text{if $x<0$}
+ \end{cases}
+ }
+\end{equation*}
+
+2)
+
+Функция распределения:
+
+\begin{equation*}
+f_{X_i}(x) = 
+ \begin{cases}
+   \lambda e^{-\lambda x} &\text{if  $x \geq 0$}\\
+   0 &\text{if $x<0$}
+ \end{cases}
+\end{equation*}
+
+$$F_X(x) = \mathbb{P}(X_1 + \dots + X_n<x)=$$
+\[=\idotsint\limits_X \prod\limits_{i=1}^nf_{X_i}(x_i)\,dx_1\dots dx_n,\] где $X = \{(X_1\dots X_n)|X_1 + \dots + X_n<x\}$.
+
+\begin{equation*}
+\boxed{
+F_{X}(x) = 
+ \begin{cases}
+    \lambda^n\idotsint\limits_{\{\textbf{x}|\sum\limits_{i=1}^nx_i<x, x_i>0\}} e^{-\sum\limits_{i=1}^n\lambda^ix_i}\,dx_1\dots dx_n &\text{if  $x \geq 0$}\\
+   0 &\text{if $x<0$}
+ \end{cases}
+ }
+\end{equation*}
+
+\begin{center}
+\textbf{Задача 2.}
+\end{center}
+
+1)
+$$\mathbb{D}(X) = \mathbb{E}(X - \mathbb{E}(X))^2 = $$
+$$=\mathbb{E}(X^2 - 2\mathbb{E}(X)X + \mathbb{E}(X)^2) = $$
+$$= \mathbb{E}(X^2) - 2\mathbb{E}(X)\mathbb{E}(X) + (\mathbb{E}X)^2 = $$
+$$= \mathbb{E}(X^2) - (\mathbb{E}X)^2$$
+
+2)
+
+$$\mathbb{E}X = \int_{-\infty}^{+\infty}f_X(x)x\,dx = $$
+$$= \int_{0}^{+\infty}(\lambda e^{-\lambda x})x\,dx  = \frac{1}{\lambda}$$
+
+Найдем дисперсию. Функция распределения для $X^2$ есть $F_X(\sqrt{x}), \forall x \geq 0$ и 0 иначе. Плотность распределения - $\frac{f_x(\sqrt{x})}{2\sqrt{x}}, x \geq 0$ и 0 иначе.
+
+$$\mathbb{E}(X^2) = \int_{-\infty}^{+\infty}f_{X^2}(x)x\,dx = $$
+$$= \int_{0}^{+\infty}(\frac{\lambda}{2} e^{-\lambda \sqrt{x}})\sqrt{x}\,dx =$$
+$$= \lambda\int_{0}^{+\infty}t^2e^{-\lambda t})\,dt = \frac{2}{\lambda^2}$$
+
+
+$$\mathbb{D}(X) = \mathbb{E}(X^2) - (\mathbb{E}X)^2 = \frac{1}{\lambda^2}$$
+
+3) 
+$$\mathbb{E}X = \int_{-\infty}^{+\infty}f_X(x)x\,dx = $$
+$$= \int_{-\infty}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{(x - m)^2}{2\sigma^2}\right)x\,dx  = $$
+$$=\int_{-\infty}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)t\,dt+\int_{-\infty}^{+\infty}\frac{m}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)\,dt=$$
+$$= \int_{0}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)\,d(t^2) = 0$$
+
+$$\mathbb{D}(X) = \mathbb{E}(X^2) = \frac{1}{2}\int_{0}^{+\infty}f_X(\sqrt(x))\sqrt{x}\,dx = $$
+$$= \frac{1}{2}\int_{-\infty}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{(\sqrt{x} - m)^2}{2\sigma^2}\right)\sqrt{x}\,dx =$$
+
+$$= \int_{0}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{(x - m)^2}{2\sigma^2}\right)x^2\,dx = $$
+
+$$= \int_{0}^{+\infty}\frac{m^2}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)\,dt+$$
+$$+\int_{0}^{+\infty}\frac{2}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)t\,dt+$$
+$$+\int_{0}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)t^2\,dt=$$
+$$=\int_{0}^{+\infty}\frac{1}{\sigma \sqrt{2\pi}}\exp\left(-\frac{t^2}{2\sigma^2}\right)t^2\,dt=$$
+$$= \sigma^2$$
+
+\begin{center}
+\textbf{Задача 3.}
+\end{center}
+
+1)
+
+$$\argmin _{a \in \mathbb{R}}\mathbb{E}(X-a)^2 = $$
+$$\argmin _{a \in \mathbb{R}}(\mathbb{E}(X^2)-2a\mathbb{E}(X) + a^2$$
+
+Выше написанная функция всюду дифференцируема. Используя первую производную, определяем, что $a = \mathbb{E}X$ - точка минимума, причем в этой точке функция принимает конечное значение в силу конечности дисперсии. Значит, полученная точка действительно минимизирует функционал.
+
+$$\boxed{a = \mathbb{E}X}$$
+
+2) 
+
+I. Пусть $Y$ - абсолютно непрерывная с.в.. $F, f$ - ее функция и плотность распределения. В этих обозначениях перепишем минимизируемый функционал:
+
+$$\Phi(b) = \mathbb{E}|Y-b|=$$
+$$= \int_{-\infty}^{b}(b-y)f(y)\,dy + \int_{b}^{+\infty}(y-b)f(y)\,dy=$$
+$$=2bF(b)-b-2\int_{-\infty}^byf(y)\,dy+\mathbb{E}(y)$$
+
+Если подынтегральная функция непрерывна и $F(b)$ дифференцируема, то потому мы можем найти производную по $b$:
+
+$$\Phi'(b) = 2F(b)-1$$
+
+Значит, наш функционал имеет минимум при $b \in F^{-1}(b)$, т.е. когда $b$ -медиана. Высказанные требования выполняются, в силу того, что $Y$ - абсолютно непрерывная случайная величина.
+
+II. Теперь рассмотрим случай, когда $Y$ - дикретная случайная величина. Тогда пусть $S = \{y|p(y):=\mathbb{P}(Y = y)\neq 0\}$. В этих обозначениях минимизируемый функционал запишется, как
+
+$$\Phi(b) = \sum\limits_{y \in S}|y-b|p(y)$$
+
+Или введя обозначения $S_+ = \{y|y\in S\& y-b > 0\}$ и $S_- = \{y|y\in S\& y-b < 0\}$, получаем:
+
+$$\Phi(b) = \sum\limits_{y \in S_+}(y-b)p(y) - \sum\limits_{y \in S_-}(y-b)p(y)$$
+
+Из геометрических соображений становится очевидно, что минимум достигается на каком-то изломе функции $\Phi$, т.е. существует $b\in S$, такое что $\Phi$ имеет минимум в этой точке. Непосредственно между этой точкой и ближайшей к ней слева точкой из $S$ функция $\Phi$ есть прямая с отрицательным коэффициентом наклона, а справа от этого $b$ уже с неотрицательным. Тогда наше искомое $b$ есть
+
+$$b = \sup\left\{b|\sum\limits_{y \in S_+}p(y) - \sum\limits_{y \in S_-}p(y)\leq 0\right\}$$
+
+Далее вводя обозначения $$\mathbb{P}(Y=b)=p(b)$$, $$u_+ := \mathbb{P}(Y\geq b) =\sum\limits_{y \in S_+}p(y) + p(b)$$ и $$u_- := \mathbb{P}(Y\leq b) =\sum\limits_{y \in S_-}p(y) + p(b)$$ получаю:
+
+$$b = \sup\left\{b|(u_+ - p(b))-u_-\leq 0\right\}$$
+
+Исходя из того, что слева от точки $b$ коэффициент наклона неотрицателен, выпишем еще одно неравенство:
+
+$$(u_+ + p(b))-u_-\geq 0$$
+
+\begin{equation*}
+ \begin{cases}
+   u_+-u_--p(b)\leq 0 &\\
+   u_+-u_-+p(b)\geq 0 &
+ \end{cases}
+\end{equation*}
+
+Пользуясь тем, что $u_++u_--p(b) = 1$, получаю:
+
+$$u_+,u_-\geq\frac{1}{2}$$
+
+Что и означает, что $\Phi$ имеет минимум, когда $b$ - медиана.
+
+На этом можно считать доказанным то, что $b$ минимизирует $\mathbb{E}|Y-b|$ для абсолютно непрерывных и дискретных случайных величин.
+\end{document}

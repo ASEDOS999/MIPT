@@ -1,0 +1,82 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\Exp}{Exp}
+\DeclareMathOperator*{\Ga}{Gamma}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{Курузов Илья}
+
+{Задание 5}
+\end{center}
+
+\begin{center}
+\textbf{Задача 1.}
+\end{center}
+
+Как было доказано на семинаре:
+$$\phi_X(t) = e^{it\mu_1 -\frac{(t\sigma_1)^2}{2}}$$
+$$\phi_Y(t) = e^{it\mu_2 -\frac{(t\sigma_2)^2}{2}}$$
+
+По свойству хар. функции:
+$$\phi_{X+Y}(t) = \phi_X(t)\phi_Y(t)$$
+$$\phi_{X+Y}(t) = e^{it(\mu_1 +\mu_2) -\frac{t^2(\sigma_1^2+\sigma_2^2)}{2}}$$
+
+В силу биективности характеристической функции и функции распределения, получаем:
+
+$$\boxed{X+Y\sim\mathcal{N}(\mu_1+\mu_2,\sigma_1^2+\sigma_2^2)}$$
+
+\begin{center}
+\textbf{Задача 3.}
+\end{center}
+1) $X\sim \Exp(\lambda)$
+
+$$\phi_X(t) = \int\limits_0^\infty e^{itx}\lambda e^{-\lambda x}\,dx$$
+
+$$\phi_X'(t) = \int\limits_0^\infty ix e^{itx}\lambda e^{-\lambda x}\,dx = \frac{1}{it-\lambda}ix e^{itx}\lambda e^{-\lambda x}\Big|_0^\infty - \frac{i}{it-\lambda}\int\limits_0^\infty ix e^{itx}\lambda e^{-\lambda x}\,dx $$
+
+$$\phi_X'(t) =  - \frac{i}{it-\lambda}\phi(x) $$
+$$\phi_X(t) = \frac{C}{it - \lambda}$$
+
+$$\phi_X(0) = \frac{C}{\lambda} = 1\Rightarrow C = \lambda$$
+
+$$\boxed{\phi_X(t) = \frac{\lambda}{it - \lambda}}$$
+
+2) $X \sim \Ga(\alpha, \lambda)$
+
+$$\phi_X(t) = \int\limits_0^\infty e^{itx}\frac{x^{\alpha-1}\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)}\,dx$$
+
+$$\phi_X'(t) = \int\limits_0^\infty ix e^{itx}\frac{x^{\alpha-1}\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)}\,dx = \frac{i}{it -\lambda} e^{itx}\frac{x^{\alpha}\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)}\Big|_0^\infty - \frac{i\alpha}{it-\lambda} \int\limits_0^\infty e^{itx}\frac{x^{\alpha-1}\lambda^\alpha e^{-\lambda x}}{\Gamma(\alpha)}\,dx$$
+$$\phi_X'(t) = -\frac{i\alpha}{it - \lambda}\phi_X(t)$$
+$$\phi_X(t) = \frac{C}{(it - \lambda)^\alpha}$$
+
+$$\phi_X(0) = \frac{C}{\lambda^\alpha} = 1\Rightarrow C = \lambda^\alpha$$
+$$\boxed{\phi_X(t) = \left(\frac{\lambda}{it - \lambda}\right)^\alpha}$$
+\end{document}

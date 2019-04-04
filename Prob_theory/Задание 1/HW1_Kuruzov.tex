@@ -1,0 +1,151 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{Курузов Илья}
+{Задание 1}
+\end{center}
+
+\begin{center}
+\textbf{Задача 1.}
+\end{center}
+
+1. Множество элементарных исходов: $\Omega$ - все перестановки набора букв. 
+$$|\Omega|=10!$$
+
+2. Мощность интересующего нас множества событий (с учетом трех букв "А" и двух "Т") равна $$|A| = 3!*2!$$
+
+3. $\mathbb{P}(A) = \frac{|A|}{|\Omega|} = \frac{12}{10!} $
+
+$$\boxed{\mathbb{P}(A) = \frac{12}{10!} }$$
+
+\begin{center}
+\textbf{Задача 2.}
+\end{center}
+
+1. Множество всех элементарных исходов: $\Omega$ - множество $n$-мерных векторов($n$=23), в котором $i$-ая компонента - день рождения - $i$-ого ученика. $$|\Omega| = 365^{23}$$.
+
+2. Событие $A$ - найдется две равные компоненты в случайном векторе. Событие $\Omega\backslash B$ - все дни рождение различны. $$|A| = |\Omega| - |\Omega\backslash B|= |\Omega| - C_{365}^{23}*23!$$
+
+3. $$\boxed{\mathbb{P}(A) = 1 - \frac{365!}{342!365^{23}}}$$
+
+\begin{center}
+\textbf{Задача 3.}
+\end{center}
+
+I. Шары различимы.
+
+1. Множество всех элементарных исходов - множество $n$-мерных векторов, у которых на месте каждой компоненты стоит номер ящика в котором находится данный шар.
+
+$$|\Omega| = m^n$$
+
+2. Интересующее нас подмножество - в компонентах вектора нет первого ящика.
+
+$$|A|=(m-1)^n$$
+
+$$\boxed{\mathbb{P}(A)=\left(\frac{m-1}{m}\right)^n}$$
+II. Шары неразличимы.
+
+1. Множество всех элементарных исходов - все вектора, сумма компонент каждого из которых равна $n$. В итоге получаем, что мощность множества равна количеству способов разбить число $n$ на $m$ упорядоченных целых неотрицательных слагаемых:
+
+$$|\Omega| = {n+m-1 \choose m-1}$$
+
+2. Интересующее нас подмножество - первая компонента равна нулю. Отсюда получаем $$|A| = {n+m-2 \choose m-2}$$
+
+$$\boxed{\mathbb{P}(A)=\frac{m-1}{n+m-1}}$$
+
+
+\begin{center}
+\textbf{Задача 4.}
+\end{center}
+
+1. Множество всех элементарных исходов $\Omega = \{(A, B)|A, B \subset 2^N\}$. $$|\Omega|=2^{2N}$$
+
+2. Множество благоприятных исходов - такие пары, пересечение элементов которых равно пустому множеству. Построим эти пары следующим способом: выберем $k$ элементов для $A$ и для $B$ будем выбирать из оставшихся. И так для всех $k$. Из этой идеи получаем мощность данного множества: 
+
+$$|A| = \sum\limits_{j=0}^NC_n^j\left(\sum\limits_{i=0}^{N-j}C_{N-j}^i\right) = \sum\limits_{j=0}^NC_n^j 2^{N-j} = 3^N$$
+
+$$\boxed{\mathbb{P}(A)=\left(\frac{3}{4}\right)^N}$$
+
+\begin{center}
+\textbf{Задача 5.}
+\end{center}
+
+1. Данное семейство не является $\sigma$-алгеброй. Докажу, что это семейство не замкнуто относительно счетного объединения.
+
+Рассмотрим следующую числовую последовательность:
+
+\begin{equation*}
+b_n = 
+ \begin{cases}
+   2b_{n-1} &\text{if  $n \mod 2 = 0$}\\
+   \frac{3}{2}b_{n-1} &\text{if $n \mod 2 \neq 0$}
+ \end{cases}
+\end{equation*}
+$$b_1=2$$
+Далее рассмотрим подпоследовательность множеств:
+
+\begin{equation*}
+A_n = 
+ \begin{cases}
+   \{1\ldots\frac{3}{4}b_n\} &\text{if  $n \mod 2 = 0$}\\
+   \{1\ldots\frac{1}{2}b_n\} &\text{if $n \mod 2 \neq 0$}
+ \end{cases}
+\end{equation*}
+
+Каждый из элементов последовательности принадлежит семейству(множество конечно, а, следовательно, предел для него равен нулю).
+
+Покажем, что $A_{n-1}\cup A_n = A_{n+1}$. В случае, если $n \mod 2 \neq 0$ это очевидно, докажем другой случай.
+
+$$A_{n-1}\cup A_n =  \{1\ldots\frac{3}{4}b_{n-1}\} \cup \{1\ldots\frac{1}{2}b_n\} = \{1\ldots\frac{3}{4}b_{n-1}\} \cup \{1\ldots\frac{3}{4}b_{n-1}\}=A_n$$
+
+Что и требовалось доказать.
+
+Рассмотрим числовую последовательность.
+
+$$a_n = \frac{|\cup_{n=1}^{\infty} A_n \cap \{1\ldots b_n\}|}{b_n}$$
+
+Видно, что для существования предела из условия для $\cup_{n=1}^{\infty} A_n$ должен существовать предел для выше описанной последовательности.
+
+Однако, как видим
+
+\begin{equation*}
+a_n = 
+ \begin{cases}
+   \frac{3}{4} &\text{if  $n \mod 2 = 0$}\\
+   \frac{1}{2} &\text{if $n \mod 2 \neq 0$}
+ \end{cases}
+\end{equation*}
+
+Откуда следует, что не существует предела последовательности $a_n$, а, следовательно, и предела из условия для $\cup_{n=1}^{\infty} A_n$.
+
+А, значит, данное семейство не является $\sigma$-алгеброй, поскольку это семейство не замкнуто относительно счетного объединения.
+
+\end{document}

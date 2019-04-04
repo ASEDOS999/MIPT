@@ -1,0 +1,175 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{Курузов Илья}
+
+{Задание 5}
+\end{center}
+
+\begin{center}
+\textbf{Задача 1.}
+\end{center}
+
+Пусть $\mathbb{I}_i^{test}$ и $\mathbb{I}_i^{stand}$- случайные величины, равные 1, если $i$-ый товар был отправлен на проверку или был стандартным соответственно, и равные нулю иначе. Пусть $N$ - количество бракованных изделий.
+
+Интересующая нас вероятность:
+$$P := \mathbb{P}(N = k|I_i^{test}\to I_i^{stand} = 1, \forall i) = $$
+$$ =\sum\limits_{i_1\dots i_k \in \overline{1, n}, i_1\neq\dots i_n}  \mathbb{P}(\mathbb{I}_{i_j}^{stand} = 0, \forall j \in \overline{1, k}|I_i^{test}\to I_i^{stand} = 1, \forall i) \cdot $$
+$$\cdot \mathbb{P}(\mathbb{I}_{m}^{stand} = 1, \forall m \neq i_j, j \in \overline{1, k}|I_i^{test}\to I_i^{stand} = 1, \forall i)$$  
+
+Теперь плавно и постепенно найдем значение выше написанной вероятности.
+
+$$\mathbb{P}(\mathbb{I}_{i_j}^{stand} = 0, \forall j \in \overline{1, k}|I_i^{test}\to I_i^{stand} = 1, \forall i) = $$
+$$= \prod_{j = 1}^k \mathbb{P}(\mathbb{I}_{i_j}^{stand} = 0)\mathbb{P}(\mathbb{I}_{i_j}^{test} = 0)=$$
+$$= \left((1-p)(1-q)\right)^k$$
+
+
+$$\mathbb{P}(\mathbb{I}_{m}^{stand} = 1, \forall m \neq i_j, j \in \overline{1, k}|I_i^{test}\to I_i^{stand} = 1, \forall i) = $$
+$$= \prod_{j = 1}^k \mathbb{P}(\mathbb{I}_{i_j}^{stand} = 1)= $$ 
+$$ = p^k$$ 
+
+Всего наборов $\{i_1\dots i_k \in \overline{1, n}, i_1\neq\dots i_n\}$ - $C_n^k$.
+
+Искомая вероятность
+
+$$\boxed{P = C_n^k \left(p(1-p)(1-q)\right)^k}$$
+\begin{center}
+\textbf{Задача 2.}
+\end{center}
+
+Наибольшее значение $p$ равно $\frac{2}{3}$.
+
+1) Докажу его максимальность от противного. Допустим, что существуют  такие множества $A, B, C$, удовлетворяющие условию задачи, при чем для них $p >\frac{2}{3}$
+
+Формула включений исключений:
+
+$$\mathbb{P}(A \cup B\cup C) = 3p - \left(\mathbb{P}(A\cup B)+\mathbb{P}(C\cup B)+\mathbb{P}(A\cup C)\right) + \mathbb{P}(A\cup B \cup C)=$$
+$$= 3p - \left(\mathbb{P}(A\cup B)+\mathbb{P}(C\cup B)+\mathbb{P}(A\cup C)\right) \geq$$
+$$\geq 3p - \left((1 - \mathbb{P}(C)) + (1 - \mathbb{P}(A)) + (1 - \mathbb{P}(B))\right) = $$
+
+$$=6p -1  > 1$$
+
+Но с другой стороны $$\mathbb{P}(A \cup B\cup C) \geq \mathbb{P}(\Omega) =1$$. Противоречие, и, значит, наибольшее значение $p$ равно $\frac{2}{3}$.
+
+2) Покажу, что наибольшее значение достигается.
+
+Воспользуемся классическим определением вероятности. Множество элементарных исходов $\Omega=\{1, 2, 3\}$. 
+
+$$A = \{1, 2\}, B = \{2, 3\}, C = \{1, 3\}$$
+$$\mathbb{P}(A) = \mathbb{P}(B) = \mathbb{P}(C) = \frac{2}{3}$$
+$$\mathbb{P}(A\cup B \cup C)= \mathbb{P}(\emptyset)=0$$
+
+\begin{center}
+\textbf{Задача 3.}
+\end{center}
+
+Распределение для $Y$
+
+
+\begin{equation*}
+F_Y(x) = \mathbb{P}(X^2 < x) = \mathbb{P}(X < \sqrt{x}) = 
+ \begin{cases}
+   1 &\text{if  $x > 1,$}\\
+   \sqrt{x} &\text{if  $0 \leq x \leq 1,$}\\
+   0 &\text{if $x < 0.$}
+ \end{cases}
+\end{equation*}
+
+
+\begin{equation*}
+\boxed{F_Y(x) =
+ \begin{cases}
+   1 &\text{if  $x > 1,$}\\
+   \sqrt{x} &\text{if  $0 \leq x \leq 1,$}\\
+   0 &\text{if $x < 0.$}
+ \end{cases}}
+\end{equation*}
+
+\begin{center}
+\textbf{Задача 4.}
+\end{center}
+
+
+\begin{equation*}
+\mathbb{P}(Y = m) = \sum\limits_{n=1}^{+\infty}\mathbb{P}\left(\sum\limits_{i=1}^NX_i = m|N=n\right)\mathbb{P}(N=n) = \\
+=\sum\limits_{n=1}^{+\infty}\mathbb{P}\left(\sum\limits_{i=1}^nX_i = m\right)\mathbb{P}(N=n)
+\end{equation*}
+
+\begin{equation*}
+\mathbb{P}\left(\sum\limits_{i=1}^nX_i = m\right) = 
+\begin{cases}
+C_n^m p^m(1-p)^{n-m} &\text{if  $m \leq n,$}\\
+0 &\text{if  $else$}\\
+\end{cases}
+\end{equation*}
+
+
+\begin{equation*}
+\mathbb{P}(N = n) = \frac{\lambda^n}{n!}e^{-\lambda}
+\end{equation*}
+
+С учетом выше написанного, получаю выражение для распределения:
+
+\begin{equation*}
+\begin{gathered}
+\mathbb{P}(Y = m) = \sum\limits_{n=m}^{+\infty}C_n^m p^m(1-p)^{n-m}\frac{\lambda^n}{n!}e^{-\lambda} =\\=e^{-\lambda}\left(\frac{p}{1-p}\right)^m\sum\limits_{n=m}^{+\infty} C_n^m (1-p)^n\frac{\lambda^n}{n!} = \\
+= e^{-\lambda}\left(\frac{p}{1-p}\right)^m\frac{1}{m!}\sum\limits_{n=m}^{+\infty} (1-p)^n\frac{\lambda^n}{(n-m)!} = \\
+= e^{-\lambda}\frac{(p\lambda)^m}{m!}\sum\limits_{n=0}^{+\infty} (1-p)^n\frac{\lambda^n}{n!} = \\
+= \frac{(p\lambda)^m}{m!}e^{-p\lambda}
+\end{gathered}
+\end{equation*}
+
+Распределение для $Y$:
+
+\begin{equation*}
+\boxed{
+\begin{gathered}
+\mathbb{P}(Y = m) = \frac{(p\lambda)^m}{m!}e^{-p\lambda}\\
+Y \sim Po(p\lambda)
+\end{gathered}}
+\end{equation*}
+
+\begin{center}
+\textbf{Задача 6.}
+\end{center}
+
+Пусть $\mathbb{I}_{a, b,c}$ -случайная величина, которая равна 1, если $a, b, c$ образуют треугольник в графе $G$ и 0 иначе.
+
+$$\mathbb{P}(\mathbb{I}_{a, b,c} = 1) = p^3$$
+
+Тогда искомое матожидание $N$ равно:
+
+$$N = \mathbb{E}\left[\sum\limits_{a, b, c \in G}\mathbb{I}_{a, b,c}\right] =$$
+$$= \sum\limits_{a, b, c \in G}\mathbb{E}\mathbb{I}_{a, b,c} = C_n^3 p^3$$
+
+$$\boxed{N = p^3C_n^3}$$
+
+\end{document}

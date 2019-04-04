@@ -1,0 +1,126 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{Курузов Илья}
+
+{Задание 3}
+\end{center}
+
+\begin{center}
+\textbf{Задача 1.}
+\end{center}
+
+1)
+
+$$F_{\max}(x) = \mathbb{P}(\max\{X,Y\}<x)$$
+$$F_{\min}(x) = \mathbb{P}(\min\{X,Y\}<x)$$
+
+Каждое из условий $\max\{X,Y\}<x$ и $\max\{X,Y\}<x$ равносильно условию $X<x, Y<x$.
+
+Из независимости случайных величин:
+$$F_{\max}(x)=F_{\min}(x) = \mathbb{P}(X<x, Y<y) = F_X(x)F_Y(y)$$
+
+2) $$F_Y(x) = \mathbb{P}(Y < x)=\mathbb{P}(F_X(X(\omega)) < x)$$
+
+Для написания аналитического выражения для распределения $Y$ требуется уточнение конструкции множества элементарных исходов.
+
+3) Исходя из монотонности $F$:
+
+$$F^{-1}(y) < z \Leftrightarrow F(F^{-1}(y)) < F(z)$$
+
+Далее найдем распределение:
+
+$$F_{new}(x) = \mathbb{P}(F^{-1}(\xi)<x)=\mathbb{P}(F(F^{-1}(\xi))<F(x))$$
+
+Для всеx $\xi$, для которых $F$ в точке $F^{-1}(\xi)$ непрерывно, выполнено, что $F(F^{-1}(\xi)) = \xi$. Множество точек разрывов имеет меру нуль(следует из монотонности функции). Значит, если переопределить в этих точках сложную фунцию $F(F^{-1}(\xi)):=\xi$, то значение вероятности не изменится.
+
+$$F_{new}(x) = \mathbb{P}(\xi<F(x)) = F_{\xi}(F(x))=F(x)$$
+
+Что и требовалось доказать.
+
+\begin{center}
+\textbf{Задача 2.}
+\end{center}
+
+Обозначим случайную величину, распределение которой мы ищем, как $X$. Это дискретная случайная величина(она может принимать только значения из $\mathbb{Z}_+$, которых счетно). Найдем вероятность $\mathbb{P}(X = k)$.
+
+Пусть $N$ -  количество экспирементов. Формула полной вероятности:
+
+$$\mathbb{P}(X = k) = \mathbb{P}(N=j+r)$$
+
+Для вычисления этих вероятностей вероятности будем пользоваться классическим определением.
+
+$$\mathbb{P}(N=j) = \frac{C_j^r}{2^j}$$
+
+$$\mathbb{P}(X=k) = \frac{C_{k+r}^r}{2^{k+r}}$$
+
+Распределение случайной величины:
+
+$$F_X(x) = \mathbb{P}(X<x) = \sum\limits_{k = 0}^{\lfloor x \rfloor}\mathbb{P}(X=k)$$
+
+$$\boxed{\mathbb{P}(X=k) = \frac{C_{k+r}^r}{2^{k+r}}}$$
+
+\begin{center}
+\textbf{Задача 3.}
+\end{center}
+
+1. Найдем вероятность $\mathbb{P}(Z = k)$:
+
+$$\mathbb{P}(Z = k) = \sum\limits_{j=0}^k\mathbb{P}(X = j)\mathbb{P}(Y = k-j)$$
+
+$$\mathbb{P}(Z=k) = \sum\limits_{j=0}^k\frac{\lambda^j\mu^{k-j}}{j!(k-j)!}\exp(-(\lambda+\mu)) =$$
+$$=\frac{1}{k!}\left(\sum\limits_{j=0}^kC_k^j\lambda^j\mu^{k-j}\right)e^{-(\lambda+\mu)}=$$
+$$=\frac{(\mu+\lambda)^k}{k!}e^{-(\lambda+\mu)}$$
+
+Распределение:
+
+$$\boxed{\mathbb{P}(Z=k)=\frac{(\mu+\lambda)^k}{k!}e^{-(\lambda+\mu)}}$$
+
+2. $$\mathbb{P}(X=k|Z=s)= \frac{\mathbb{P}(\{X=k\}\cap\{Z=s\})}{\mathbb{P}(Z=s)} = \frac{\mathbb{P}(Z=s|X=k)\mathbb{P}(X=k)}{\mathbb{P}(Z=s)}$$
+
+Если $k \leq s$:
+
+$$\mathbb{P}(Z=s|X=k) = \frac{\lambda^k\mu^{s-k}}{k!(s-k)!}\exp(-(\lambda+\mu)),$$
+иначе эта вероятность равна нулю.
+
+$$\mathbb{P}(X=k|Z=s)= \frac{\lambda^k\mu^{s-k}}{k!(s-k)!}e^{-(\lambda+\mu)} \frac{\lambda^k}{k!}e^{-\lambda}\left(\frac{(\mu+\lambda)^s}{s!}e^{-(\lambda+\mu)}\right)^{-1}$$
+
+$$\mathbb{P}(X=k|Z=s) = \frac{C_s^k}{k!}\frac{\lambda^k\mu^{s-k}}{(\lambda + \mu)^s} e^{-\lambda}$$
+
+Окончательное выражение для распределения:
+\begin{equation*}
+\boxed{\mathbb{P}(X=k|Z=s)=
+ \begin{cases}
+   \frac{C_s^k}{k!}\frac{\lambda^k\mu^{s-k}}{(\lambda + \mu)^s} e^{-\lambda}, &\text{if  $k\leq s$}\\
+   0 &\text{if $k>s$}
+ \end{cases}}
+\end{equation*}
+\end{document}
