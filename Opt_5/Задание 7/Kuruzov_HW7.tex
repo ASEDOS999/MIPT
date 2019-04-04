@@ -1,0 +1,150 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\conv}{conv}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\intset}{int}
+\DeclareMathOperator*{\dom}{dom}
+\DeclareMathOperator*{\tr}{tr}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 7}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1.}
+\end{center}
+
+1) Пусть $p>1$. Тогда найдем супремум при помощи производной.
+
+$$(yx - x^p)'=0$$
+$$y - px^{p-1}=0$$
+$$x* = \left(\frac{y}{p}\right)^{\frac{1}{p-1}}$$
+
+Данная точка дает максимум:
+
+$$f^*(y)=y\left(\frac{y}{p}\right)^{\frac{1}{p-1}} + \left(\frac{y}{p}\right)^{\frac{p}{p-1}}, \dom f^* = \mathbb{R}$$
+
+2) Пусть $p<0$. Тогда рассмотрим 2 случая:
+
+a) $y\neq 0$. Тогда $\sup (yx - x^p) = (yx - x^p)|_{x = \sign(y) \infty} = \infty$. Значит, при $y \neq 0$ сопряженная функция не определена.
+
+б) $y = 0$. Тогда $\sup(yx-x^p) = -\inf(x^p) = 0$
+
+Тогда 
+$$\boxed{f^*(y) = 0, \dom f^* = \{0\}}$$
+
+\begin{center}
+	\textbf{Задача 2.}
+\end{center}
+
+$$f^*(\textbf{y}) = \sup\limits_{x_j> 0,\forall j}\left(\sum\limits_{j=1}^n y_jx_j + \left(\prod\limits_{j=1}^nx_j\right)^{\frac{1}{n}}\right)$$
+
+1) Если $\exists j:y_j\geq 0$, то 
+$$\sup\limits_{x_j> 0,\forall j}\left(\sum\limits_{j=1}^n y_jx_j + \left(\prod\limits_{j=1}^nx_j\right)^{\frac{1}{n}}\right) = \lim\limits_{x_j\to \infty}\left(\sum\limits_{j=1}^n y_jx_j + \left(\prod\limits_{j=1}^nx_j\right)^{\frac{1}{n}}\right)\Big|_{x_i = 1,\forall i \neq j} = \infty$$
+
+Значит, если $\exists j:y_j\geq 0$, то функция не определена.
+
+2) Рассмотрим случай, когда $\sum\limits_{j=1}^n y_j > -1$. Докажу, что в этом случае сопряженная функция не определена. Положим, все компоненты вектора $\textbf{x}$ равными $m>0$ и рассмотрим выражение под супремумом
+
+\begin{eqnarray}
+\sum\limits_{j=1}^n y_jx_j + \left(\prod\limits_{j=1}^nx_j\right)^{\frac{1}{n}} = \\
+= m\left(\sum\limits_{j=1}^n y_j + 1\right) = \\
+= mq,
+\end{eqnarray}
+
+где $q > 0$. В силу того, что $m$ - произвольная положительная константа, верно, что выражение под супремумом может принимать сколь угодно большое значение, а, значит, в этом случае супремум бесконечен и функция не определена.
+
+3) Теперь рассмотрим случай, когда $y_i \leq -\frac{1}{n}, \forall i$.
+
+\begin{eqnarray}
+\sum\limits_{j=1}^n y_jx_j + \left(\prod\limits_{j=1}^nx_j\right)^{\frac{1}{n}} \leq \\
+\leq \sum\limits_{j=1}^n y_jx_j + \sum\limits_{j = 1}^n \frac{x_j}{n} = \\
+= \sum\limits_{j=1}^n \left(y_j+\frac{1}{n}\right)x_j \leq \\
+\leq \min\limits_j x_j \left(\sum\limits_{j=1}^n y_j + 1\right) \leq 0
+\end{eqnarray}
+
+Переход от первой ко второй строчке осуществлен в силу неравенства о средних, а неравенство в четвертой строчке осуществлено в силу области определения $y_i$. Верхняя оценка достигается при $\textbf{x}\to\textbf{0}$. Значит, 
+
+$$f(\textbf{y})\Big|_{\textbf{y}|y_i \leq -\frac{1}{n}, \forall i}= 0, \dom f^* = \left\{\textbf{y}|y_i \leq -\frac{1}{n}, \forall i\right\}$$
+
+\begin{center}
+	\textbf{Задача 3.}
+\end{center}
+
+По определению:
+
+$$g^*(\textbf{y}) = \sup\limits_{\textbf{x}}\left(\textbf{y}^\top \textbf{x} - g(\textbf{x})\right)$$
+
+$$g^*(\textbf{y}) = \sup\limits_{\textbf{x}}\left(\textbf{y}^\top \textbf{x} - f(\textbf{Ax}+\textbf{b})\right)$$
+
+Пусть далее $A$ не вырожденная матрица.
+
+\begin{eqnarray}
+\textbf{y}^\top \textbf{x} =\nonumber \\
+= \textbf{y}^\top \textbf{A}^{-1} \left(\textbf{A}\textbf{x}\right)=\nonumber\\
+= \textbf{y}^\top \textbf{A}^{-1} \left(\textbf{A}\textbf{x} + \textbf{b} - \textbf{b}\right)=\nonumber\\
+= (\textbf{A}^{-\top}\textbf{y})^\top\left(\textbf{A}\textbf{x} + \textbf{b}\right)  - \textbf{y}^\top \textbf{A}^{-1} \textbf{b}
+\end{eqnarray}
+
+В результате получаем:
+
+$$g^*(\textbf{y}) = \sup\limits_{\textbf{x}}\left((\textbf{A}^{-\top}\textbf{y})^\top\left(\textbf{A}\textbf{x} + \textbf{b}\right) - f(\textbf{Ax}+\textbf{b})\right) - \textbf{y}^\top \textbf{A}^{-1} \textbf{b}$$
+
+$$g^*(\textbf{y}) = \sup\limits_{\textbf{x}}\left((\textbf{A}^{-\top}\textbf{y})^\top\textbf{x} - f(\textbf{x})\right) - \textbf{y}^\top \textbf{A}^{-1} \textbf{b}$$
+
+$$\boxed{g^*(\textbf{x}) = f^*(\textbf{A}^{-\top}\textbf{y}) - \textbf{y}^\top \textbf{A}^{-1} \textbf{b}}$$
+
+\begin{center}
+	\textbf{Задача 4.}
+\end{center}
+
+$$f^*(\textbf{Y}) = \sup\limits_{\textbf{X} \in \textbf{S}^n_{++}}\left(\tr(\textbf{YX}) + \log\det\textbf{X} \right)$$
+
+Найдем производную выражения под супремумом и приравняем ее нулю. В силу того, что производные слагаемых уже были найдены в курсе, воспользуемс выражениями для них без приведения вывода:
+
+$$\left(\tr(\textbf{YX}) + \log\det\textbf{X} \right)' = \textbf{Y}^{\top} + X^{-\top} = 0$$
+
+1) Рассмотрим случай, когда $Y$ - невырожденная матрица. Тогда $X = -Y^{-1}$ дает экстремум, причем, в силу выпуклости функций (доказано в курсе), - глобальный. Данный экстремум дает максимум.
+
+$$f^*(\textbf{Y}) = -n + \log\det(-\textbf{Y}^{-1})$$
+
+$$f^*(\textbf{Y}) = -n - \log\det(-\textbf{Y}), \forall \textbf{Y}: \det(-\textbf{Y}) > 0$$
+
+2) Пусть теперь $Y$ - матрица, такая что $\det(-\textbf{Y})\leq 0$. Докажу, что в этом случае сопряженная функция не определена. Для случая если на диагонали $\textbf{Y}$ есть неотрицательный элемент (без ограничения общности будем считать, что это $y_{11}$), то рассмотрим выражение под супремумом для $\textbf{X}=diag(k\lambda_1\dots \lambda_n)$, где $k>0$, $\lambda_i>0, \forall i$. Заметим, что $\textbf{X} \in \textbf{S}^n_{++}$.
+
+$$\tr(\textbf{YX}) + \log\det\textbf{X} = k\lambda_1 y_1 +\sum\limits_{j=2}^ny_i \lambda_i + \log \prod_{j=1}^n\lambda_j+\log k$$
+
+Как видим, устремляя $k$ к бесконечности, получаем сколь угодно большое значение для выражения под супремумом. А, значит, супремум бесконечен и функция не определена.
+
+\end{document}

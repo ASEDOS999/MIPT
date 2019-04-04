@@ -1,0 +1,230 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\conv}{conv}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\intset}{int}
+\DeclareMathOperator*{\dom}{dom}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 6}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1.}
+\end{center}
+
+$$\norm{\textbf{x}} = \sum\limits_{j=1}^n g(x_j)$$
+
+$$g(\textbf{x}) = |x_j|$$
+
+\begin{equation}
+\partial g(\textbf{x}) = 
+\begin{cases}
+-e_j, \text{if $x < 0$} \\
+[-1, 1]e_j, \text{if $x = 0$} \\
+e_j, \text{if $x > 0$} \\
+\end{cases},
+\end{equation}
+где $e_j$ - $j$-ый базисный вектор.
+
+\begin{equation}
+\partial\norm{\textbf{x}} = \sum\limits_{j=1}^n \partial g(\textbf{x}) =
+\sum\limits_{j=1}^n
+\begin{cases}
+-e_j, \text{if $x_j < 0$} \\
+[-1, 1]e_j, \text{if $x_j = 0$} \\
+e_j, \text{if $x_j > 0$} \\
+\end{cases} 
+\end{equation}
+
+\begin{center}
+	\textbf{Задача 2.}
+\end{center}
+
+
+\begin{equation}
+f(x) = \frac{1}{2}\norm{\textbf{w}}_2^2 + \sum\limits_{i=1}^m \max \left(0, 1-y_i((\textbf{w},\textbf{x}_i) + b_i)\right)
+\end{equation}
+
+Найдем субградиент для выражения под суммой:
+
+\begin{eqnarray}
+\partial \max \left(0, 1-y_i((\textbf{w},\textbf{x}_i) + b_i)\right) =\nonumber\\
+=\begin{cases}
+\partial 0, \text{if $0 > 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+\partial \left(1-y_i((\textbf{w},\textbf{x}_i) + b_i)\right), \text{if $0 < 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+\conv\left(0, \partial(1-y_i((\textbf{w},\textbf{x}_i) + b_i))\right), \text{if $0 = 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+\end{cases}
+\end{eqnarray}
+
+
+\begin{eqnarray}
+\partial \max \left(0, 1-y_i((\textbf{w},\textbf{x}_i) + b_i)\right) = \nonumber\\
+=\begin{cases}
+0, \text{if $0 > 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+-y_i\textbf{x}_i, \text{if $0 < 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+\conv\left(0, -y_i\textbf{x}_i)\right), \text{if $0 = 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+\end{cases}
+\end{eqnarray}
+
+\begin{equation}
+\frac{1}{2}\partial\norm{\textbf{w}}_2^2 = \textbf{w}
+\end{equation}
+
+Конечное выражение для субдифференциала
+
+\begin{equation}
+\boxed{\partial f(x) = \textbf{w} +
+\sum\limits_{j=1}^m
+\begin{cases}
+\textbf{0}, \text{if $0 > 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+-y_i\textbf{x}_i, \text{if $0 < 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+-y_i\alpha\textbf{x}_i, \alpha\in[0, 1], \text{if $0 = 1-y_i((\textbf{w},\textbf{x}_i) + b_i)$} \\
+\end{cases}}
+\end{equation}
+
+\begin{center}
+	\textbf{Задача 3.}
+\end{center}
+
+\begin{equation}
+f(x)=
+=\begin{cases}
+0, \text{if $x \in [-1, 1]$}\\
+|x|-1, \text{if $x \in [-2, -1) \cup (1, 2]$}\\
+-\infty, \text{else}\\
+\end{cases}
+\end{equation}
+
+Найдем субдифференциал функции на интервале (-2, 2):
+
+\begin{equation}
+\partial_{(-2, 2)} f(x)=
+\begin{cases}
+1, \text{if $x \in (1, 2)$}\\
+\conv\left(0, 1\right), \text{if $x = 1$}\\
+0, \text{if $x \in (-1, 1)$}\\
+\conv\left(0, -1\right), \text{if $x = -1$}\\
+-1, \text{if $x \in (-2, -1)$}\\
+\end{cases}
+\end{equation}
+
+Пусть $X = [-2, 2]$, тогда искомый субдифференциал на $X$:
+
+\begin{equation}
+\partial_X f(x) = \partial_{(-2, 2)}f(x) + N(x|X)
+\end{equation}
+
+\begin{equation}
+\partial N(x|X) =
+\begin{cases}
+a, a\geq 0, \text{if $x = -2$}\\
+0, \text{if $x \in (-\infty, \infty)\backslash \{-2, 2\}$}\\
+a, a\leq 0, \text{if $x = 2$}\\
+\end{cases}
+\end{equation}
+
+
+\begin{equation}
+\boxed{
+\partial_X f(x) = 
+\begin{cases}
+a, a\leq 0, \text{if $x = 2$}
+1, \text{if $x \in (1, 2)$}\\
+\alpha, \alpha \in[0, 1], \text{if $x = 1$}\\
+0, \text{if $x \in (-\infty, -2)\cap(-1, 1)\cap(2,\infty)$}\\
+\alpha, \alpha \in[-1, 0], \text{if $x = -1$}\\
+-1, \text{if $x \in (-2, -1)$}\\
+a, a\geq 0, \text{if $x = -2$}
+\end{cases}}
+\end{equation}
+
+
+\begin{center}
+	\textbf{Задача 4.}
+\end{center}
+
+\begin{equation}
+\partial_X f(\textbf{x}) = \partial f(\textbf{x}) + \partial \delta(x|X)= \partial f(\textbf{x}) + N(x|X) 
+\end{equation}
+
+Найдем $\partial f(\textbf{x})$:
+
+\begin{eqnarray}
+\partial f(\textbf{x}) = \partial |x_1-x_2| + \partial |x_1+x_2| = \nonumber\\
+= \begin{cases}
+(1, -1)^{\top}, \text{$x_1>x_2$}\\
+\conv\{(1, -1)^{\top}, (-1, 1)^{\top}\}, \text{$x_1=x_2$}\\
+(-1, 1)^{\top}, \text{$x_1<x_2$}\\
+\end{cases} + 
+\begin{cases}
+(1, 1)^{\top}, \text{$x_1 +x_2>0$}\\
+\conv\{(1, 1)^{\top}, (-1, -1)^{\top}\}, \text{$x_1=x_2$}\\
+(-1, -1)^{\top}, \text{$x_1+x_2<0$}\\
+\end{cases}
+\end{eqnarray}
+
+Нормальный конус:
+
+\begin{equation}
+N(x|X) = 
+\begin{cases}
+\{a\textbf{x}| a> 0\}, \text{$\norm{\textbf{x}} = 2$}\\
+\textbf{0}, else\\
+\end{cases}
+\end{equation}
+
+Окончательный ответ:
+
+\begin{eqnarray}
+\partial_X f(\textbf{x}) = 
+\begin{cases}
+(1, -1)^{\top}, \text{$x_1>x_2$}\\
+\conv\{(1, -1)^{\top}, (-1, 1)^{\top}\}, \text{$x_1=x_2$}\\
+(-1, 1)^{\top}, \text{$x_1<x_2$}\\
+\end{cases} + \nonumber\\
+\begin{cases}
+(1, 1)^{\top}, \text{$x_1 +x_2>0$}\\
+\conv\{(1, 1)^{\top}, (-1, -1)^{\top}\}, \text{$x_1=-x_2$}\\
+(-1, -1)^{\top}, \text{$x_1+x_2<0$}\\
+\end{cases} +\nonumber\\
+\begin{cases}
+\{a\textbf{x}| a> 0\}, \text{$\norm{\textbf{x}} = 2$}\\
+\textbf{0}, else\\
+\end{cases}
+\end{eqnarray}
+
+
+
+\end{document} 

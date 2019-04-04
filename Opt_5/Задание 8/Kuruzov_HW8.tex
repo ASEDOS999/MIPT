@@ -1,0 +1,267 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\conv}{conv}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\intset}{int}
+\DeclareMathOperator*{\dom}{dom}
+\DeclareMathOperator*{\tr}{tr}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 8}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1}
+\end{center}
+
+Найдем условный субдифференциал:
+
+\begin{equation}
+\begin{split}
+\partial_X f(x,y) = &\partial f(x,y) + N((x,y)|X) = \\
+&=\begin{cases}
+(1, 0)^\top, \text{if $x > 0$}\\
+(\alpha, 0)^\top, \alpha \in[-1,1], \text{if $x = 0$}
+\end{cases} +\\
+&+
+\begin{cases}
+(0, 1)^\top, \text{if $y > 0$}\\
+(0, \alpha)^\top, \alpha \in[-1,1], \text{if $y = 0$}
+\end{cases}
++N((x,y)|X)=\\
+&=\begin{cases}
+(1, 0)^\top, \text{if $x > 0$}\\
+(\alpha, 0)^\top, \alpha \in[-1,1], \text{if $x = 0$}
+\end{cases} +\\
+&+
+\begin{cases}
+(0, 1)^\top, \text{if $y > 0$}\\
+(0, \alpha)^\top, \alpha \in[-1,1], \text{if $y = 0$}
+\end{cases}+\\
+&+\begin{cases}
+\alpha \textbf{n}, \alpha > 0, \text{if $(x-1)^2+(y-1)^2 =1$}\\
+0, \text{else}
+\end{cases},
+\end{split}
+\end{equation}
+где $\textbf{n} = (x-1, y-1)^\top$ - внешняя нормаль к окружности  в точке $(x,y)$. Выше не расматривались случаи $x<0$ и $y<0$, т.к. такие точки не удовлетворяют ограничению.
+
+1) На границе.
+1.1)$x > 0, y > 0$
+
+\begin{equation}
+\begin{cases}
+1 + \alpha(x-1)= 0,\\
+1 + \alpha(y-1)= 0
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\begin{cases}
+x= 1 - \frac{1}{\alpha},\\
+y = 1 - \frac{1}{\alpha}
+\end{cases}
+\end{equation}
+ 
+Найдем $\alpha$ из того условия, что это граница:
+
+$$\frac{2}{\alpha^2}=1$$
+$$\alpha = \sqrt{2}$$ 
+
+$$(x^*, y^*)^\top = (1 - \frac{1}{\sqrt{2}}, 1 - \frac{1}{\sqrt{2}})^\top$$
+
+В силу выпуклости целевой функции и бюджетного множества, можно утверждать, что в точке $(x^*, y^*)^\top = (1 - \frac{1}{\sqrt{2}}, 1 - \frac{1}{\sqrt{2}})^\top$ достигается минимум, равный $2 -\sqrt{2}$.
+
+\begin{center}
+	\textbf{Задача 2.}
+\end{center}
+
+1) Исследуем на выпуклость целевую функцию.
+
+$$H(f) = \begin{Vmatrix}
+2 + e^{x_1+x_2} & -1 + e^{x_1+x_2}\\
+-1 + e^{x_1+x_2} & 4 + e^{x_1+x_2}
+\end{Vmatrix}
+$$
+
+$$\Delta_1 = 2 + e^{x_1+x_2} > 0, \forall \textbf{x}\in\mathbb{R}^2$$
+$$\Delta_2 = (2 + e^{x_1+x_2})(4 + e^{x_1+x_2}) - (-1 + e^{x_1+x_2})^2 = 7 +7e^{x_1+x_2} > 0, \forall \textbf{x}\in\mathbb{R}^2$$
+
+Значит, целевая функция действительно выпуклая. Значит, любая стационарная точка даст нам минимум.
+
+2) $$\textbf{grad}f = \textbf{0}$$
+\begin{equation}
+\begin{cases}
+2x_1 - x_2 + e^{x_1+x_2} = 0,\\
+-x_1 + 4x_2 + e^{x_1+x_2} = 0.
+\end{cases}
+\end{equation}
+
+Решение этой системы - $(-0.385, -0.231)$ дает минимум, равный $0.706$.
+
+\begin{center}
+	\textbf{Задача 3}
+\end{center}
+
+Построим лагранжиан:
+
+$$L(x,y,\lambda,\mu) = (x-3)^2 - (y-2)^2 + \lambda(y-x-1)+\mu(y+x-3)$$
+
+Используем теорему Каруша-Куна-Такера:
+\begin{equation}
+\begin{cases}
+y-x-1 = 0,\\
+y+x-3 \leq 0,\\
+\mu(y+x-3) = 0,\\
+\mu \geq 0,\\
+2(x-3)-\lambda+\mu=0,\\ 
+-2(y-2) +\lambda+\mu = 0.
+\end{cases}
+\end{equation}
+
+1) $\mu = 0$
+
+\begin{equation}
+\begin{cases}
+y-x-1 = 0,\\
+y+x-3 \leq 0,\\
+2(x-3)-\lambda=0,\\ 
+-2(y-2) +\lambda = 0;
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\begin{cases}
+y-x-1 = 0,\\
+x - y - 1=0,\\ 
+x + y - 3 \leq 0,\\
+-2(y-2) +\lambda = 0;
+\end{cases}
+\end{equation}
+
+Система не совместна.
+
+2) $\mu > 0$
+
+\begin{equation}
+\begin{cases}
+y-x-1 = 0,\\
+y+x-3 = 0,\\
+\mu \geq 0,\\
+2(x-3)-\lambda+\mu=0,\\ 
+-2(y-2) +\lambda+\mu = 0;
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\begin{cases}
+y-x-1 = 0,\\
+x-y-1+\mu = 0
+y+x-3 = 0,\\
+\mu \geq 0,\\
+2(x-3)-\lambda+\mu=0,\\ 
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\begin{cases}
+\mu = 2, \\
+y = 2,\\
+x = 1
+\mu \geq 0,\\
+\end{cases}
+\end{equation}
+
+Точка $(1,2)$ - стационарная точка, а в силу выпуклости задачи, эта точка дает минимум.
+
+$$\boxed{\min\limits_X f(x,y) = f(1, 2)= 4}$$
+
+\begin{center}
+	\textbf{Задача 4}
+\end{center}
+
+Перепишем оптимизационную задачу в следующем виде:
+
+\begin{gather}
+\min\limits_{\textbf{x}\in\mathbb{R}^3}x_1^2+2x_2^2 +x_3\\
+s.t. x_1 - 2x_2+3x_3 -4\leq 0\\
+-(x_1 - 2x_2+3x_3) -4\leq 0
+\end{gather}
+
+Целевая функция и функции, задающие ограничения, дифференцируемы. Применим теорему Каруша-Куна-Такера:
+
+$$L = x_1^2+2x_2^2 +x_3 + \mu_1(x_1 - 2x_2+3x_3 -4) + \mu_2(-(x_1 - 2x_2+3x_3) -4)$$
+
+\begin{equation}
+\begin{cases}
+x_1 - 2x_2+3x_3 -4\leq 0\\
+-(x_1 - 2x_2+3x_3) -4\leq 0,\\
+ \mu_1(x_1 - 2x_2+3x_3 -4) = 0,\\
+\mu_2(-(x_1 - 2x_2+3x_3) -4) = 0,\\
+\mu_1,\mu_2\geq 0,\\
+2x_1 + \mu_1-\mu_2=0,\\
+4x_2- 2\mu_1+2\mu_2=0,\\
+1 + 3\mu_1 - 3\mu_2 = 0.
+\end{cases}
+\end{equation}
+
+1) $\mu_1 = 0, \mu_2 > 0$.
+
+\begin{equation}
+\begin{cases}
+x_1 - 2x_2+3x_3 -4\leq 0\\
+-(x_1 - 2x_2+3x_3) -4= 0,\\
+\mu_1,\mu_2\geq 0,\\
+2x_1-\mu_2=0,\\
+4x_2+2\mu_2=0,\\
+1 - 3\mu_2 = 0.
+\end{cases}
+\end{equation}
+
+\begin{equation}
+\begin{cases}
+x_1 - 2x_2+3x_3 -4\leq 0\\
+x_3= -\frac{3}{2},\\
+\mu_2\geq 0,\\
+x_1=\frac{1}{6},\\
+x_2=-\frac{1}{6},\\
+\mu_2 = \frac{1}{3}.
+\end{cases}
+\end{equation}
+
+Точка $(\frac{1}{6}, -\frac{1}{6}, -\frac{3}{2})^\top$ - решение этой системы. В силу выпуклости задачи, она дает минимум.
+
+$$\boxed{\min\limits_{\textbf{x}\in X }x_1^2+2x_2^2 +x_3 = x_1^2+2x_2^2 +x_3\Big|_{\textbf{x}=(\frac{1}{6}, -\frac{1}{6}, -\frac{3}{2})^\top} = -\frac{13}{9}}$$
+
+\end{document}

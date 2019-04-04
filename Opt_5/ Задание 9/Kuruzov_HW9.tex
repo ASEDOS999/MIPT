@@ -1,0 +1,143 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\conv}{conv}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\intset}{int}
+\DeclareMathOperator*{\dom}{dom}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\st}{s.t. }
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 9}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1}
+\end{center}
+
+1. Решим оптимизационную задачу:
+
+\begin{gather}
+\min\limits_{\textbf{x}\in\mathbb{R}^3}x^2+1\\
+\st\,(x-2)(x-4)\leq 0
+\end{gather}
+
+Условный субдифференциал:
+
+\begin{equation}
+\begin{split}
+\partial_X f(x) = \partial f(x) + N(x|X) =\\ 
+=2x+1 + \begin{cases}
+\alpha, \alpha \leq 0, \text{$x = 2$}\\
+\alpha, \alpha \leq 0, \text{if $x = 2$}\\
+0, \text{else}
+\end{cases}
+\end{split}
+\end{equation}
+
+Получаем, что $0\in \partial_X f(2)$. В силу выпуклости целевой функции и бюджетного множества, это точка минимума:
+$$\boxed{\min f(x) = f(2) = 5}$$
+
+2. 
+
+\begin{tikzpicture}
+\begin{axis}[
+	xlabel = {\text{Бюджетное множество}},
+	ylabel = {Целевая функция},
+	minor tick num = 2,
+	xmin = 1,
+	xmax = 5,
+	domain = 2:4
+]
+\addplot[blue] {x^2 + 1};
+\addplot table{
+	x y
+	2 5
+};
+\end{axis}
+\end{tikzpicture}
+
+3.
+
+\begin{tikzpicture}
+\begin{axis}[
+	legend pos = north west,
+	xlabel = {\text{Бюджетное множество}},
+	ylabel = {Лагранжиан},
+	minor tick num = 2,
+	xmin = 1,
+	xmax = 5,
+	domain = 2:4
+]
+\legend{ 
+	$p^* =  5$,
+	$\lambda = 1$,
+	$\lambda = 2$, 
+	$\lambda = 5$, 
+	$\lambda = 10$, 
+};
+\addplot[yellow] {5};
+\addplot[violet] {x^2 + 1 + (x-2)*(x-4)};
+\addplot[blue] {x^2 + 1 + 2*(x-2)*(x-4)};
+\addplot[red] {x^2 + 1 + 5*(x-2)*(x-4)};
+\addplot[green] {x^2 + 1 + 10*(x-2)*(x-4)};
+\end{axis}
+\end{tikzpicture}
+
+Как видно из рисунка, $p^* \geq \inf\limits_x L(x,\lambda)$
+
+4. 
+\begin{equation}
+\begin{split}
+g(\lambda) = \inf\limits_{x\in X} (x^2 + 1 + \lambda(x-2)(x-4)) = \\
+=  1 + 8\lambda + \inf\limits_{x \in X}((\lambda + 1)x^2 -6\lambda x)=\\
+= 1 + 8\lambda + \left((\lambda + 1)x^2 -6\lambda x\right)\Big|_{x = \max\left(2,\frac{3\lambda}{\lambda + 1}\right)}=\\
+= \begin{cases}
+\frac{-\lambda^2 + 9\lambda + 1}{\lambda+1},\text{if $\lambda \geq 2$},\\
+5,  \text{if $0\leq \lambda \leq 2$}
+\end{cases} =\\
+= \begin{cases}
+-\lambda + 10 - \frac{9}{\lambda+1},\text{if $\lambda \geq 2$},\\
+5,  \text{if $0\leq \lambda \leq 2$}
+\end{cases}
+\end{split} 
+\end{equation}
+
+Функция всюду $g$ дифференцируема, причем $g'(\lambda) \leq 0, \forall \lambda \geq 0$. Значит, $g(0)$ дает  максимум, т.е. решение двойственной задачи:
+
+$$\boxed{\max_{\lambda\,:\,\lambda\geq 0}g(\lambda) = g(0) = 5}$$
+
+$d^* = p^*$ и поэтому свойство сильной двойственности выполнено.
+\end{document}

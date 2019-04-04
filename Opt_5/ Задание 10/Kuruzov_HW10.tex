@@ -1,0 +1,182 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.9}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\conv}{conv}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\intset}{int}
+\DeclareMathOperator*{\dom}{dom}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\st}{s.t. }
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 10}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1}
+\end{center}
+
+Заметим, что задача $\min |x|$ равносильна следующей задаче:
+
+\begin{gather}
+\min y\\
+\st\,y\geq x\\
+y\geq -x
+\end{gather} 
+
+Заметим, что добавление условий на неотрицательность переменных не изменит решения этой задачи. Далее это свойство будет активно использоваться
+
+а) 
+
+\begin{gather}
+\min 2x_1+3|x_2-10|\\
+\st\,|x_1+2|+|x_2|\leq 5
+\end{gather} 
+
+Заменим $|x_2-10|,|x_1+2|,|x_2|$ на $y_1, y_2,y_3$.
+
+\begin{gather}
+\min 2x_1+3y_1\\
+\st\,y_2+y_3\leq 5\\
+y_1 \geq x_2 - 10\\
+y_1 \geq -(x_2 - 10)\\
+y_2 \geq x_1 + 2\\
+y_2 \geq -(x_1+2)\\
+y_3 \geq x_2\\
+y_3 \geq -x_2\\
+y_1, y_2, y_3 \geq 0\\
+x_1+2, x_2, x_2-10 \geq 0
+\end{gather} 
+
+Или полностью по канону:
+
+\begin{gather}
+\min 2x_1+3y_1\\
+\st\,y_2+y_3\leq 5\\
+y_1 \geq x_2 - 10\\
+y_1 \geq -(x_2 - 10)\\
+y_2 \geq x_1 + 2\\
+y_2 \geq -(x_1+2)\\
+y_3 \geq x_2\\
+y_3 \geq -x_2\\
+x_2 \geq 10\\
+x_1 - v \geq -2\\
+v \leq 2\\
+y_1, y_2, y_3 \geq 0\\
+x_1, x_2, v\geq 0
+\end{gather} 
+
+Переходим к равенствам и записываем полностью в каноническом виде
+
+\begin{gather}
+\min 2x_1+3y_1\\
+\st\,y_2+y_3\leq 5\\
+y_1 - x_2 + z_1 = - 10\\
+y_1 + x_2 + z_2 = 10)\\
+y_2 - x_1 + z_3 = 2\\
+y_2 + x_1 + z_4 =  -2\\
+y_3 - x_2 + z_5 = 0\\
+y_3 + x_2 + z_6 = 0\\
+x_2 + z_7 = 10\\
+x_1 - v  + z_8 = -2\\
+-v + z_9 = -2\\
+y_1, y_2, y_3 \geq 0\\
+x_1, x_2, v\geq 0\\
+\textbf{z} \geq 0
+\end{gather} 
+
+б) 
+
+\begin{gather}
+\min \norm{\textbf{x}}\\
+\st\,\textbf{Ax} = \textbf{b}
+\end{gather} 
+
+Переходим от $|x_i|$ к $y_i$.
+
+\begin{gather}
+\min \sum\limits_{i=1}^ny_i\\
+\st\,\textbf{Ax} = \textbf{b}\\
+y_i \geq x_i\\
+y_i \geq -x_i
+\end{gather}
+
+Замена $\textbf{x} = \textbf{u} - \textbf{v}, \textbf{u}\geq 0, \textbf{v} \geq 0$
+
+\begin{gather}
+\min \sum\limits_{i=1}^ny_i\\
+\st\,\textbf{Au}-\textbf{Av} = \textbf{b}\\
+\textbf{y} \geq \textbf{u} - \textbf{v}\\
+\textbf{y} \geq -\textbf{u} + \textbf{v}\\
+\textbf{u}, \textbf{v}, \textbf{y} \geq 0
+\end{gather}
+
+Перейдем к канонической форме:
+
+\begin{gather}
+\min \sum\limits_{i=1}^ny_i\\
+\st\,\textbf{Au}-\textbf{Av} = \textbf{b}\\
+\textbf{y} - \textbf{u} + \textbf{v} + \textbf{z}_1 = 0\\
+\textbf{y} + \textbf{u} - \textbf{v} + \textbf{z}_2 =0\\
+\textbf{u}, \textbf{v}, \textbf{y}, \textbf{z}_1, \textbf{z}_2 \geq 0
+\end{gather}
+
+в) Полиэдральное множество $P = \left\{\textbf{x}\Big|\textbf{Ax}\leq \textbf{b}\right\}$
+
+\begin{gather}
+\max\limits_{\textbf{x}_c}R\\
+\st\,B(\textbf{x}_c, R)\subset P
+\end{gather}
+
+Шар $B(\textbf{x}_c, R)$ лежит в $P$, тогда и только тогда, когда граница шара лежит в $P$. Необходимость следует из определения вложенности в одного множества в другое. Достаточность можно доказать от противного.
+
+Радиус наибольшей сферы с центром $\textbf{x}_c$ равен минимальному расстоянию от $\textbf{x}_c$ до $P$. Теперь получаем следующую эквивалентную оптимизационную задачу:
+
+\begin{gather}
+\min\limits_{\textbf{x}_c}\norm{\textbf{x} - \textbf{x}_c}\\
+\st\, \textbf{x}\in P
+\end{gather}
+
+Выше и далее под нормой подразумевается вторая норма. Очевидное замечание: $x_c$ должно лежать в $P$.
+
+\begin{gather}
+\min\norm{\textbf{x} - \textbf{x}_c}\\
+\st\, \textbf{x}, \textbf{x}_c\in P
+\end{gather}
+
+\begin{gather}
+\min\norm{\textbf{x} - \textbf{x}_c}\\
+\st\, \textbf{Ax}, \textbf{Ax}_c \leq \textbf{b}
+\end{gather}
+\end{document}

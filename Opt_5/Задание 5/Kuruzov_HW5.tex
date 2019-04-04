@@ -1,0 +1,186 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\aff}{aff}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\intset}{int}
+\DeclareMathOperator*{\dom}{dom}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 5}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1.}
+\end{center}
+
+Множество $G$ есть объединение двух полуплоскостей $x_1 = x_2, x_1>0$ и $x_1 = -x_2, x_1>0$. Из чего становится очевидным, что $\aff G = \mathbb{R}^3$. Значит, 
+$$\relint G = \intset G = \emptyset$$
+
+$$\boxed{\relint G = \emptyset}$$
+
+\begin{center}
+	\textbf{Задача 2.}
+\end{center}
+
+Утверждаю, что плоскость $x_n = 1$ и есть искомая. Докажу это.
+
+1) Для точек множества $X_1$
+
+$$x_n \leq \sqrt{\norm{\textbf{x}}_2^2} \leq 1$$
+
+$$x_n \leq 1$$
+
+2) Для точек множества $X_2$:
+
+$$x_n \geq 1 + x_{n-1}^2 + \dots + x_1^2 \geq 1$$
+
+$$x_n \geq 1$$
+
+Значит, $x_n = 1$ - разделяющая гиперплоскость для $X_1$ и $X_2$  по определению.
+
+\begin{center}
+	\textbf{Задача 3.}
+\end{center}
+
+1) 
+$$F_x(x_0, y_0, z_0) = e^{x_0}$$
+$$F_y(x_0, y_0, z_0) = 2$$
+$$F_z(x_0, y_0, z_0) = \cos(z_0)$$
+
+Функция $F$ всюду дифференцируема, значит, уравнение гиперплоскости для любой т. $(x_0, y_0, z_0)$:
+
+$$C = F(\textbf{x}_0) + (F', \textbf{x} - \textbf{x}_0) $$
+
+$$C(x, y, z) = e^{x_0}(x - x_0 + 1) + 2y + (z-z_0)\cos(z_0) + \sin(z_0)$$
+
+2) 
+$$F_x(x, y, z) = \frac{1}{5}(x+y)^{-\frac{4}{5}}e^z \sin 100x + 100\sqrt[5]{x+y}e^z \cos 100x$$
+$$F_y(x, y, z) = \frac{1}{5}(x+y)^{-\frac{4}{5}}e^z \sin 100x$$
+$$F_z(x, y, z) = \sqrt[5]{x+y}e^z \sin 100x$$
+
+Функция $F$ всюду дифференцируема кроме точек $x + y \leq 0$, значит, уравнение гиперплоскости для любой т. $(x_0, y_0, z_0)|x_0 + y_0 > 0$:
+
+$$C = F(\textbf{x}_0) + (F'(\textbf{x}_0), \textbf{x} - \textbf{x}_0) $$
+
+$$C(x, y, z) = \sqrt[5]{x_0+y_0}e^{z_0} \sin 100x_0+$$
+$$ + \left(\frac{1}{5}(x_0+y_0)^{-\frac{4}{5}}e^{z_0} \sin 100x_0 + 100\sqrt[5]{x_0+y_0}e^{z_0} \cos 100x_0\right)(x - x_0)+$$ 
+$$+ \frac{1}{5}(x_0+y_0)^{-\frac{4}{5}}e^{z_0} \sin 100x_0(y-y_0) + \sqrt[5]{x_0+y_0}e^{z_0} \sin 100x_0(z-z_0)$$
+
+$$C(x, y, z) = \sqrt[5]{x_0+y_0}e^{z_0} \sin 100x_0 (1 + \left(\frac{1}{5(x_0+y_0)} + 100\tg 100x_0\right)(x - x_0)+$$
+$$ + \frac{1}{5(x_0+y_0)}(y-y_0) + (z-z_0))$$
+
+3)
+
+$$F_x(x_0, y_0, z_0) = |y_0z_0|\sign(x_0)$$
+$$F_y(x_0, y_0, z_0) = |x_0z_0|\sign(y_0)$$
+$$F_z(x_0, y_0, z_0) = |y_0x_0|\sign(z_0)$$
+
+Функция $F$ дифференцируема во всех точках, в которых выполнено $x_0, y_0, z_0 \neq 0$. Уравнение касательной гиперплоскости:
+
+$$C(x, y, z) = |x_0y_0z_0|\left(1 + \frac{x - x_0}{x_0}+ \frac{y - y_0}{y_0}+ \frac{z - z_0}{z_0}\right)$$
+
+\begin{center}
+	\textbf{Задача 4.}
+\end{center}
+
+Утверждаю, что касательная  в точке $x_0$ гиперплоскость для поверхности, заданной неявно уравнением $g(\textbf{x})=\frac{x_1^2}{4}+\frac{x_2^2}{8}+\frac{x_3^2}{8} - 1 = 0$, и есть опорная. Докажем это.
+
+1) Сначала построим эту гиперплоскость. Градиент функции $g$:
+
+$$g_x(\textbf{x}_0) = \frac{x_1}{2} = -\frac{3}{5};$$
+$$g_y(\textbf{x}_0) = \frac{x_2}{4} = \frac{2\sqrt{2}}{5};$$
+$$g_z(\textbf{x}_0) = \frac{x_3}{4} = 0.$$
+
+Уравнение касательной гиперплоскости:
+
+$$0 = -\frac{3}{5}\left(x_1 + \frac{6}{5}\right) + \frac{2\sqrt{2}}{5}\left(x_2 - \frac{8\sqrt{2}}{5}\right);$$
+
+$$-3x_1 + 2\sqrt{2}x_2 = 8;$$
+
+$$3x_1 - 2\sqrt{2}x_2 = -8.$$
+
+2) Теперь непосредственно докажем, что построенная гиперплоскость является опорной для заданного множества $X$. Для этого найдем минимум функции $F(x_1, x_2, x_3) = 3x_1 - 2\sqrt{2}x_2  + 8$ при условии $g(x_1, x_2, x_3) = \frac{x_1^2}{4}+\frac{x_2^2}{8}+\frac{x_3^2}{8} - 1 = a, a \leq 0$. Воспользуемся методом Лагранжа:
+
+$$L = 3x_1 - 2\sqrt{2}x_2  + 8 + \lambda(\frac{x_1^2}{4}+\frac{x_2^2}{8}+\frac{x_3^2}{8} - 1 - a);$$
+
+\begin{equation*}
+ \begin{cases}
+   3 + \lambda\frac{x_1}{2} = 0,\\
+   -2\sqrt{2} + \lambda\frac{x_2}{4} = 0, \\
+   \lambda\frac{x_3}{4} = 0, \\
+   \frac{x_1^2}{4}+\frac{x_2^2}{8}+\frac{x_3^2}{8} - 1 - a = 0;
+ \end{cases}
+\end{equation*}
+
+Стационарные точки:
+
+\begin{equation*}
+ \begin{cases}
+  	\lambda = \pm\frac{\sqrt{1+a}}{5},\\
+   x_1 = \mp\frac{6\sqrt{1+a}}{5}, \\
+   x_2 = \pm8\sqrt{2}\frac{\sqrt{1+a}}{5}, \\
+   x_3 = 0.
+ \end{cases}
+\end{equation*}
+
+Второй дифференциал лагранжиана для определения характера экстремума:
+
+$$d^2 L = \lambda\left(\frac{(dx_1)^2}{2} + \frac{(dx_2)^2}{4}+\frac{(dx_3)^2}{4}\right).$$
+
+Лагранжиан является положительно определенной квадратичной формой при $\lambda > 0$ и отрицательно определенной при $\lambda > 0$. Из данного факта, следует, что минимум достигается, если:
+
+\begin{equation*}
+ \begin{cases}
+  	\lambda = \frac{\sqrt{1+a}}{5},\\
+   x_1 = -\frac{6\sqrt{1+a}}{5}, \\
+   x_2 = 8\sqrt{2}\frac{\sqrt{1+a}}{5}, \\
+   x_3 = 0.
+ \end{cases}
+\end{equation*}
+
+
+ Значение функции $F$ в этой точке:
+$$\sqrt{1+a}\left(\frac{-18}{5} - \frac{32}{5}\right) = -8\sqrt{1+a} \geq -8$$
+Заметим, что минимум по $a$ достигается при $a = 0$, т.е. минимум функции $F$ на этом множестве равен $-8$ и достигается в единственной  точке $\textbf{x}_0$ из условия.
+
+Значит, для любой точки из $X$ 
+
+$$3x_1 - 2\sqrt{2}x_2 \geq -8,$$
+что и значит, что построенная гиперплоскость является опорной.
+
+Опорная гиперплоскость:
+
+$$\boxed{H = \{\textbf{x}\in \mathbb{R}^3|3x_1 - 2\sqrt{2}x_2 = -8\}}$$
+
+Утверждение $H \cap X = {\textbf{x}_0}$ следует из того, что, во-первых, $H = \{\textbf{x}|F(\textbf{x}) = -8\}$, во-вторых, минимум функции $F$ достигается в единственной точке $\textbf{x}_0$ и, в-третьих, этот минимум равен $-8$.
+\end{document} 

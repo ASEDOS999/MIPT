@@ -1,0 +1,226 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\sign}{sign}
+\DeclareMathOperator*{\relint}{relint}
+\DeclareMathOperator*{\dom}{dom}
+
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand\abs[1]{\left|#1\right|}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 4}
+\end{center}
+
+\begin{center}
+	\textbf{Задача 1.}
+\end{center}
+
+\begin{center}
+	\textbf{10.}
+\end{center}
+
+1) $$f(x) =\abs{\abs{x}-1}$$
+
+Данная фунция не является выпуклой. Возьмем $x_1 = -1{,}5,x_2=1{,}5,\alpha =0{,}5$ и получаем:
+
+$$f( \alpha x_1 + (1-\alpha)x_2) = f(0) = 1 \geq 0{,}5 = \alpha f(x_1)+(1-\alpha)f(x_2)$$
+
+2) $$f(x,y) = x^2y^2$$
+
+Функция $f$ определена на $\mathbb{R}^2$, а потому $\relint(X_f) = \mathbb{R}^2$.Гессиан $f$:
+
+$$H(f) = \begin{pmatrix} 2y^2 & 4xy \\ 4xy & 2x^2 \end{pmatrix}$$
+
+$$\Delta_1 = 2y^2 \geq 0, \forall x,y$$
+$$\Delta_2 = (2y^2)(2x_2)-(4xy)(4xy)=-12(xy)^2 < 0, \forall x,y \neq 0$$
+
+Из дифференциального критерия второго порядка следует, что $f(x,y)$ не является выпуклой.
+
+\begin{center}
+	\textbf{11.}
+\end{center}
+
+Рассмотрим следующую функцию:
+$$f(x) = -\sin(x), X = [0, \pi]$$
+Тогда
+$$f^2(x) = \frac{1-\cos(2x)}{2}, X = [0, \pi]$$
+
+Для этих функций $\relint(X) = (0, \pi)$. Найдем вторые производные, которые собственно и являются единственной компонентой гессиана, наших функций:
+
+$$f''(x) = \sin(x) \geq 0, \forall x \in \relint(X)$$
+$$(f^2(x))''= 2\cos(2x) < 0, x = \frac{\pi}{2} \in \relint(X)$$
+
+Значит, мы привели пример выпуклой $f$, для которой $f^2$ не выпукла.
+
+\begin{center}
+	\textbf{11.}
+\end{center}
+
+$$f(x) = -\sin(x), X_f = [0, \pi]$$
+$$g(x) = x^2, X_g = [-1, 0]$$
+
+Функия $g$ выпукла, поскольку
+$$g''(x) = 2 \geq 0, \forall x \in \relint(X_g)$$
+Выпуклость функции $f$ доказана в предыдущем пункте. 
+
+$$g(f(x)) = \frac{1-\cos(2x)}{2}, X = [0, \pi]$$
+
+Функция $g \circ f$ не является выпуклой, что доказано в предыдущем пункте.
+
+\begin{center}
+	\textbf{Задача 2.}
+\end{center}
+
+Докажем обратное неравенство Йенсена по индукции.
+
+I. База индукции при $n=2$. Докажем ее от противного.
+
+$$f(\lambda \textbf{x}_1 + (1-\lambda)\textbf{x}_1) < \lambda f(\textbf{x}_1) + (1-\lambda)f(\textbf{x}_1), \forall \lambda > 0$$
+
+Зафиксируем $\textbf{x}_1,\textbf{x}_2$ из $\dom f$ и рассмотрим $\lambda = \frac{3}{2}$.
+
+Тогда из нашего предположения и  из условия о выпуклости функции получаем два неравенства:
+
+$$f\left(\frac{3}{2} \textbf{x}_1 - \frac{1}{2}\textbf{x}_1\right) < \frac{3}{2} f(\textbf{x}_1) - \frac{1}{2}f(\textbf{x}_1)$$
+$$f\left(\frac{1}{2} \textbf{x}_1 + \frac{1}{2}\textbf{x}_1\right) \leq \frac{1}{2} f(\textbf{x}_1) + \frac{1}{2}f(\textbf{x}_1)$$
+
+Далее пользуясь этими неравенствами и выпуклостью функции, получаем следующее:
+
+$$f(\textbf{x}_1) = $$
+$$=f\left(\frac{1}{2}\left(\frac{3}{2} \textbf{x}_1 - \frac{1}{2}\textbf{x}_1\right)+\frac{1}{2}\left(\frac{1}{2} \textbf{x}_1 + \frac{1}{2}\textbf{x}_1\right)\right)\leq$$
+$$\leq \frac{1}{2}f\left(\frac{3}{2} \textbf{x}_1 - \frac{1}{2}\textbf{x}_1\right)+\frac{1}{2}f\left(\frac{1}{2} \textbf{x}_1 + \frac{1}{2}\textbf{x}_1\right) <$$
+
+$$<\frac{3}{4} f(\textbf{x}_1) - \frac{1}{4}f(\textbf{x}_1) + \frac{1}{4} f(\textbf{x}_1) + \frac{1}{4}f(\textbf{x}_1)=$$
+
+$$=f(\textbf{x}_1)$$
+
+Иными словами, мы получили, что $f(\textbf{x}_1)\neq f(\textbf{x}_1)$, т.е. противоречие. На этом базу индукции можно считать доказанной.
+
+II. Пусть обратное неравенство Йенсена верно для $n$ точек. Докажем для $n+1$. Далее предполагается, что $\lambda_{n+1}\neq 0$, иначе данное неравенство совпадает с неравенством для $n$ точек, которое верно по предположению индукции.
+
+$$f\left(\lambda_1 \textbf{x}_1 +\dots+\lambda_n \textbf{x}_n + \lambda_{n+1}\textbf{x}_{n+1}\right) = $$
+$$=f\left(\lambda_1 \textbf{x}_1 +\dots+(\lambda_n + \lambda_{n+1})\left(\frac{\lambda_n}{\lambda_n + \lambda_{n+1}} \textbf{x}_n + \frac{\lambda_{n+1}}{\lambda_n + \lambda_{n+1}}\textbf{x}_{n+1}\right)\right)=$$
+$$=\sum\limits_{i=1}^{n-1}\lambda_i f(\textbf{x}_i) + \left(\lambda_n + \lambda_{n+1}\right)f\left(\frac{\lambda_n}{\lambda_n + \lambda_{n+1}} \textbf{x}_n + \frac{\lambda_{n+1}}{\lambda_n + \lambda_{n+1}}\textbf{x}_{n+1}\right) = $$
+$$=\sum\limits_{i=1}^{n+1}\lambda_i f(\textbf{x}_i)$$
+
+Стоит заметить, что $\lambda_n + \lambda_{n+1} < 0$ в силу условия и сделанного предположения отличности от нуля второго слагаемого. Из этого следует то, что $ \frac{\lambda_{n}}{\lambda_n + \lambda_{n+1}},  \frac{\lambda_{n+1}}{\lambda_n + \lambda_{n+1}} \geq 0$. Переход от предпоследней к последней строчки выполнен в силу выпуклости функции $f$. 
+
+Полученное неравенство есть обратное неравенство Йенсена для $n+1$ точки.
+
+Значит, обратное неравенство Йенсена верно. $\square$
+\begin{center}
+	\textbf{Задача 3.}
+\end{center}
+
+\begin{center}
+	\textbf{3.1.}
+\end{center}
+
+Пользуясь ограничением на прямую, докажем, что $f$ - выпуклая функция.
+
+Рассмотрим функцию для фиксированных $(t_1, \textbf{u}), (t_2, \textbf{v}) \in E$:
+
+$$g(\alpha) = f((t_1, \textbf{u}) + \alpha (t_2, \textbf{v})),$$
+$$\alpha \in\{\alpha|(t_1+\alpha t_2)^2 - (\textbf{u}+\alpha \textbf{v})^{\top}(\textbf{u}+\alpha \textbf{v})>0\}$$
+
+Обозначим:
+
+$$C_1 = t_2^2 - \textbf{v}^{\top}\textbf{v}$$
+$$C_2 = t_1t_2 - \textbf{u}^{\top}\textbf{v}$$
+$$C_3 = t_1^2 - \textbf{u}^{\top}\textbf{u}$$
+
+В этих обозначениях получаем выражение для $g$:
+
+$$g(\alpha) = -\log(C_1\alpha^2 + 2C_2\alpha + C_3)$$
+
+Для определения выпуклости найдем ее вторую производную:
+
+$$g''(\alpha) = \frac{2C_1}{C_1\alpha^2 + 2C_2\alpha + C_3}+4\frac{C_2^2-C_1C_3}{(C_1\alpha^2 + 2C_2\alpha + C_3)^2}$$
+
+Из того, что $(t_2, \textbf{v}) \in E$, следует:
+
+$$C_1 > 0, \forall (t_1, \textbf{u}), (t_2, \textbf{v}) \in E$$
+
+Исходя из  определения области определения $g$, получаем неотрицательность знаменателей. Значит, если мы докажем, что числитель второго слагаемого в производной неотрицателен, то мы докажем, что вторая производная неотрицательна. Так займемся же этим.
+
+$$C_2^2-C_1C_3=$$
+$$= (t_1t_2 - (\textbf{u},\textbf{v}))^2 - (t_2^2 - \norm{\textbf{v}}^2)(t_1^2 - \norm{\textbf{u}}^2)=$$
+$$=-2t_1t_2(\textbf{u},\textbf{v}) + (\textbf{u},\textbf{v})^2 + t_2^2\norm{\textbf{u}} + t_1^2\norm{\textbf{v}} -\norm{\textbf{v}}^2\norm{\textbf{u}}^2=$$
+$$=(t_1\norm{\textbf{v}} - t_2\norm{\textbf{u}})^2+2t_1t_2(\norm{\textbf{v}}\norm{\textbf{u}}-(\textbf{u},\textbf{v})) + (\textbf{u},\textbf{v})^2 -\norm{\textbf{v}}^2\norm{\textbf{u}}^2=$$
+$$=(t_1\norm{\textbf{v}} - t_2\norm{\textbf{u}})^2 + (\norm{\textbf{v}}\norm{\textbf{u}}-(\textbf{u},\textbf{v}))(2t_1t_2 - \norm{\textbf{v}}\norm{\textbf{u}}-(\textbf{u},\textbf{v}))\geq$$
+$$\geq (\norm{\textbf{v}}\norm{\textbf{u}}-(\textbf{u},\textbf{v}))(2t_1t_2 - \norm{\textbf{v}}\norm{\textbf{u}}-(\textbf{u},\textbf{v}))$$
+Пользуясь неравенством КБШ в обоих скобках, получаю:
+
+$$C_2^2-C_1C_3 \geq 2c(t_1t_2 - \norm{\textbf{v}}\norm{\textbf{u}}),$$
+где $c$ - неотрицательная константа. Скобка не меньше нуля, в силу определения множества $E$. Значит,
+
+$$C_2^2-C_1C_3 \geq 0, \forall (t_1, \textbf{u}), (t_2, \textbf{v}) \in E$$
+
+Как было отмечено выше, это означает неотрицательность второй производной $g$:
+
+$$g''(\alpha) \geq 0, \forall (t_1, \textbf{u}), (t_2, \textbf{v}) \in E$$
+
+Из чего следует, что $g$ выпукла для любых $(t_1, \textbf{u}), (t_2, \textbf{v}) \in E$. Тогда по теореме об ограничении на прямую исходная функция $f(t, \textbf{x})$ тоже выпукла.
+
+\begin{center}
+	\textbf{3.2.}
+\end{center}
+
+Область определения $p_{ij}$ есть множество векторов $X \in \mathbb{R}^n$ такое, что для любого вектора весов из этого множества выполняется, что любой цикл $G$, для которого есть его содержащий путь из $i$ в $j$, имеет неотрицательный вес. Если не выдвинуть этого условия, то вес кратчайшего пути может быть сколь угодно мал, а, значит,
+ функция не определена. Отметим, что $X$ не пусто, т.к. $\mathbb{R}^n_+\in X$ (в таком случае функцию можно однозначно вычислить при помощи алгоритма Дейкстры).
+ 
+ 
+ 
+Докажу, что функция $p_{ij}$ вогнута. 
+
+Далее для вектора $\textbf{c}$ индекс внизу означает номер вектора, индекс вверху - номер компоненты этого вектора. Так же подразумевается, что $\alpha$ - произвольное число из отрезка $[0,1]$.
+
+I.Рассмотрим два произвольных вектора $\textbf{c}_1,\textbf{c}_2 \in X$. Для этого сначала докажу, что $X$ - выпуклое множество. Заметим, что если $s_1, s_2$ -веса одного и того же пути $S$($S$ множество номеров ребер в этом пути) из одной вершины в другую(не обязательно $i$ и $j$) для векторов $\textbf{c}_1$ и $\textbf{c}_2$ соответственно, то вес этого пути для вектора $\alpha \textbf{c}_1 + (1-\alpha)\textbf{c}_2$ равен:
+
+$$c(S) = \sum\limits_{i\in S}[\alpha \textbf{c}_1^i + (1-\alpha)\textbf{c}_2^i] = \alpha \sum\limits_{i\in S}\textbf{c}_1^i + (1-\alpha)\sum\limits_{i\in S}\textbf{c}_2^i = \alpha s_1 + (1-\alpha)s_2$$
+
+Мы можем утверждать, что для любого цикла, для которого есть содержащий его путь из $i$ в $j$, верно, что его вес для вектора весов $\alpha \textbf{c}_1 + (1-\alpha)\textbf{c}_2$ неотрицателен. Действительно, это верно в силу написанного выше неравенства и того, что $\alpha \in[0,1]$ и для $с_1,c_2 \in X$ верно $s_1,s_2\geq 0$ по определению $X$, где $s_1,s_2$ - вес этого цикла для веторов $\textbf{c}_1,\textbf{c}_2$.
+
+II. Введем обозначения: $S_1, S_2, S$ - множества номеров ребер в кратчайшем пути из $i$ в $j$ для векторов $\textbf{c}_1,\textbf{c}_2$ и $\alpha \textbf{c}_1 + (1-\alpha)\textbf{c}_2$ соответственно. В случае если кратчайших путей несколько, то выбирается любой.
+
+В таких обозначениях, получаем следующие выражения для значений функций на этих векторах:
+
+$$p_{ij}(\textbf{c}_k) = \sum\limits_{m \in S_k}c_k^m, k=1,2$$
+$$p_{ij}(\alpha \textbf{c}_1 + (1-\alpha)\textbf{c}_2) = \sum\limits_{m \in S}\left(\alpha \textbf{c}_1^m + (1-\alpha)\textbf{c}_2^m\right) = \alpha\sum\limits_{m \in S}c_1^m+(1-\alpha)\sum\limits_{m \in S}c_2^m$$
+
+По определению кратчайшего пути:
+
+$$\sum\limits_{m \in S_1}c_1^m \leq \sum\limits_{m \in S}c_1^m$$
+
+Из выше написанного следует:
+
+$$p_{ij}(\alpha \textbf{c}_1 + (1-\alpha)\textbf{c}_2) \geq \alpha p_{ij}(\textbf{c}_1) + (1-\alpha)p_{ij}(\textbf{c}_2)$$
+
+Что и означает то, что функция вогнута. $\square$
+\end{document} 

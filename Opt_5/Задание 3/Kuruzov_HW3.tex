@@ -1,0 +1,115 @@
+ \documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}       
+
+\usepackage[english,russian]{babel}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,amsbsy,amstext,amscd,amsxtra,multicol}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage[stable]{footmisc}
+\usepackage{ dsfont }
+
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{bm}
+\usepackage{color}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\grad}{grad}
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\sign}{sign}
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\begin{document}
+
+\begin{center}
+	{Курузов Илья, 678}
+
+	{Задание 3}
+\end{center}
+
+\begin{center}
+	\textbf{1.}
+\end{center}
+
+$$\frac{\partial J(\textbf{U}, \textbf{V})}{\partial U_{ij}} = \frac{\partial}{\partial U_{ij}}\sum\limits_{l=1}^n\left(\sum\limits_{k=1}^n U_{ik}V_{kl} - Y_{il}\right)^2 + \lambda U_{ij}$$
+
+$$\frac{\partial J(\textbf{U}, \textbf{V})}{\partial U_{ij}} = 2\sum\limits_{l=1}^nV_{jl}\left(\sum\limits_{k=1}^n U_{ik}V_{kl} - Y_{il}\right) + \lambda U_{ij}$$
+
+Свернем в матричный вид:
+
+$$\boxed{\frac{\partial J(\textbf{U}, \textbf{V})}{\partial \textbf{U}} = 2\left(\textbf{UVV}^\top - \textbf{YV}\right)+\lambda \textbf{U}}$$
+
+Функция симметричная по $\textbf{U}$ и $\textbf{V}$, их этих соображений, получаем выражение для производной по другой матрице:
+
+$$\boxed{\frac{\partial J(\textbf{U}, \textbf{V})}{\partial \textbf{V}} = 2\left(\textbf{VUU}^\top - \textbf{YU}\right)+\lambda \textbf{V}}$$
+
+\begin{center}
+	\textbf{2.}
+\end{center}
+
+$$\frac{\partial f(\textbf{w})}{\partial w_k} = \sum\limits_{i=1}^m\frac{\partial}{\partial w_k}\log\left(1+e^{-y_i\textbf{w}^\top\textbf{x}_i}\right)$$
+
+$$\frac{\partial f(\textbf{w})}{\partial w_k} = \sum\limits_{i=1}^m\frac{-y_ix_i^ke^{-y_i\textbf{w}^\top\textbf{x}}}{1+e^{-y_i\textbf{w}^\top\textbf{x}_i}}$$
+
+$$\boxed{\grad f(\textbf{w}) = -\sum\limits_{i=1}^m\frac{-y_i\textbf{x}e^{y_i\textbf{w}^\top\textbf{x}}}{1+e^{-y_i\textbf{w}^\top\textbf{x}_i}}}$$
+
+Пришло время для гессиана:
+
+$$H_{mk}(f) = \frac{\partial}{\partial w_m}\frac{\partial f(\textbf{w})}{\partial w_k} = \frac{\partial}{\partial w_m}\left(\sum\limits_{i=1}^m\frac{-y_ix_i^ke^{-y_i\textbf{w}^\top\textbf{x}}}{1+e^{-y_i\textbf{w}^\top\textbf{x}_i}}\right)$$
+
+$$H_{mk}(f) = -\sum\limits_{i=1}^my_ix_i^k\frac{\partial}{\partial w_m}\frac{e^{-y_i\textbf{w}^\top\textbf{x}}}{1+e^{-y_i\textbf{w}^\top\textbf{x}_i}}$$
+
+$$H_{mk}(f) = -\sum\limits_{i=1}^my_ix_i^k\frac{-y_ix_i^me^{-y_i\textbf{w}^\top\textbf{x}_i}(1+e^{-y_i\textbf{w}^\top\textbf{x}_i}) + y_ix_i^me^{-2y_i\textbf{w}^\top\textbf{x}_i}}{(1+e^{-y_i\textbf{w}^\top\textbf{x}_i})^2}$$
+
+$$H_{mk}(f) = \sum\limits_{i=1}^m\frac{y_i^2x_i^kx_i^me^{-y_i\textbf{w}^\top\textbf{x}_i}}{(1+e^{-y_i\textbf{w}^\top\textbf{x}_i})^2}$$
+
+Возвращаясь к матрицам и векторам:
+
+$$\boxed{H_{mk}(f) = \sum\limits_{i=1}^m\frac{y_i^2e^{-y_i\textbf{w}^\top\textbf{x}_i}}{(1+e^{-y_i\textbf{w}^\top\textbf{x}_i})^2}\textbf{x}_i\textbf{x}_i^\top}$$
+
+\begin{center}
+	\textbf{3.}
+\end{center}
+
+$$J_{km} = \frac{\partial f_k}{\partial x_m} = \frac{\delta_{km}e^{w_k}\left(\sum\limits_{j=1}^ne^{w_j}\right) - e^{w_k+w_m} }{\left(\sum\limits_{j=1}^ne^{w_j}\right)^2}$$
+
+Я не могу увидеть, как это красиво переписать в матричном виде, а поэтому пусть так и остается:
+
+$$\boxed{J_{km} = \frac{\partial f_k}{\partial x_m} = \frac{\delta_{km}e^{w_k}\left(\sum\limits_{j=1}^ne^{w_j}\right) - e^{w_k+w_m} }{\left(\sum\limits_{j=1}^ne^{w_j}\right)^2}}$$
+
+\begin{center}
+	\textbf{4.}
+\end{center}
+
+$$\frac{\partial R(\textbf{x}|\textbf{A})}{\partial \textbf{x}} = \frac{(\textbf{A} + \textbf{A}^\top)\textbf{x}\cdot\textbf{x}^\top\textbf{x} - \textbf{x}^\top\textbf{Ax} \cdot 2\textbf{x}}{(\textbf{x}^\top\textbf{x})^2}=$$
+
+$$=\frac{2\textbf{A}\textbf{x}\cdot\textbf{x}^\top\textbf{x} - \textbf{x}^\top\textbf{Ax} \cdot 2\textbf{x}}{(\textbf{x}^\top\textbf{x})^2} = 2\frac{\textbf{A}\textbf{x}\cdot\textbf{x}^\top\textbf{x} - \textbf{x}^\top\textbf{Ax} \cdot \textbf{x}}{(\textbf{x}^\top\textbf{x})^2} $$
+
+$$\boxed{\grad R(\textbf{x}|\textbf{A}) =  2\frac{\textbf{A}\textbf{x}\cdot\textbf{x}^\top\textbf{x} - \textbf{x}^\top\textbf{Ax} \cdot \textbf{x}}{(\textbf{x}^\top\textbf{x})^2} }$$
+
+При $x$ совпадающим с собственным вектором градиент обнуляется. Причем максимум, достигается на максимальном собственном числе (видно из вида функции отношения Рэлея).
+
+\begin{center}
+	\textbf{5.}
+\end{center}
+
+1) Из курса линейной алгебры, известно, что
+$$f(\textbf{X}) = \sum\limits_{i=1}^n\lambda_i = \tr \textbf{X} = \sum\limits_{i=1}^nx_{ii}$$
+
+$$\boxed{\frac{\partial f(\textbf{X})}{\partial \textbf{X}} = \textbf{E}}$$
+
+2) Из курса линейной алгебры, известно, что
+
+$$f(\textbf{X}) = \prod\limits_{i=1}^n\lambda_i = \det \textbf{X}$$
+
+$$\boxed{\frac{\partial f(\textbf{X})}{\partial \textbf{X}} = \textbf{X}^{-\top}\det \textbf{X}}$$
+\end{document}
